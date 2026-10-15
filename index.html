@@ -409,7 +409,7 @@
       line-height: 1.45;
     }
 
-    /* 2. MEET THE TEAM SECTION WITH TRANSLUCENT BLURRED PHOTO BACKGROUNDS */
+    /* 2. MEET THE TEAM SECTION WITH MOBILE-FRIENDLY BACKGROUND LAYERS & HOVER OVERLAYS */
     .team-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -428,35 +428,26 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      z-index: 1;
     }
 
-    /* Semi-blurry translucent background pseudo-element */
-    .team-card::before {
-      content: '';
+    /* Absolute HTML Background Image Layer */
+    .card-bg-img {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background-size: cover;
-      background-position: center;
-      filter: blur(5px);
+      object-fit: cover;
+      filter: blur(4px);
       opacity: 0.35;
-      z-index: -1;
+      z-index: 0;
+      pointer-events: none;
       transition: transform 0.3s ease;
     }
 
-    .team-card:hover::before {
+    .team-card:hover .card-bg-img {
       transform: scale(1.08);
     }
-
-    /* Background Images linked to main member PNGs */
-    .team-card.tanmay::before { background-image: url('tanmay.png'); }
-    .team-card.krishna::before { background-image: url('krishna.png'); }
-    .team-card.shivam::before { background-image: url('shivam.png'); }
-    .team-card.siddesh::before { background-image: url('siddesh.png'); }
-    .team-card.yash::before { background-image: url('yash.png'); }
 
     .team-card:hover {
       transform: translateY(-4px);
@@ -497,13 +488,16 @@
       box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
     }
 
+    .team-name, .lead-badge, .team-role, .team-skills-box {
+      position: relative;
+      z-index: 2;
+    }
+
     .team-name {
       font-size: 1.25rem;
       font-weight: 700;
       margin-bottom: 0.35rem;
       color: var(--text-main);
-      position: relative;
-      z-index: 2;
     }
 
     .lead-badge {
@@ -517,8 +511,6 @@
       padding: 0.2rem 0.65rem;
       border-radius: var(--radius-full);
       margin-bottom: 0.65rem;
-      position: relative;
-      z-index: 2;
     }
 
     .team-role {
@@ -526,8 +518,6 @@
       font-weight: 600;
       color: #93c5fd;
       margin-bottom: 0.85rem;
-      position: relative;
-      z-index: 2;
     }
 
     .team-skills-box {
@@ -535,8 +525,6 @@
       padding-top: 0.85rem;
       border-top: 1px solid var(--border-light);
       width: 100%;
-      position: relative;
-      z-index: 2;
     }
 
     .team-skills-label {
@@ -553,6 +541,48 @@
       font-size: 0.9rem;
       color: var(--text-muted);
       font-weight: 500;
+    }
+
+    /* Resume Bio Hover Overlay */
+    .team-bio-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(11, 15, 25, 0.95);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      z-index: 10;
+      box-sizing: border-box;
+    }
+
+    .team-card:hover .team-bio-overlay {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .team-bio-overlay h4 {
+      font-size: 1.1rem;
+      color: var(--text-main);
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+
+    .team-bio-overlay p {
+      font-size: 0.825rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin: 0;
     }
 
     .team-lead-callout {
@@ -1132,7 +1162,6 @@
         <p class="section-subtitle">Discover our founding philosophy, strategic vision, and five specialized AI automation services engineered to modernize business operations.</p>
       </div>
 
-      <!-- Short Intro, Mission & Vision -->
       <div class="mission-vision-grid">
         <div class="mv-card">
           <div class="mv-icon">
@@ -1165,13 +1194,11 @@
         </div>
       </div>
 
-      <!-- 5 Services -->
       <div class="services-title-wrapper">
         <h3>Our 5 Core AI Automation Services</h3>
       </div>
 
       <div class="services-grid">
-        <!-- Service 1: Chatbots -->
         <div class="service-card">
           <div>
             <div class="service-header">
@@ -1191,7 +1218,6 @@
           </div>
         </div>
 
-        <!-- Service 2: Workflow Automation -->
         <div class="service-card">
           <div>
             <div class="service-header">
@@ -1211,7 +1237,6 @@
           </div>
         </div>
 
-        <!-- Service 3: Lead/Email Automation -->
         <div class="service-card">
           <div>
             <div class="service-header">
@@ -1231,7 +1256,6 @@
           </div>
         </div>
 
-        <!-- Service 4: Document Processing -->
         <div class="service-card">
           <div>
             <div class="service-header">
@@ -1251,7 +1275,6 @@
           </div>
         </div>
 
-        <!-- Service 5: AI Voice Agents -->
         <div class="service-card">
           <div>
             <div class="service-header">
@@ -1280,12 +1303,13 @@
       <div class="section-header">
         <span class="section-badge">Section 2</span>
         <h2 class="section-title">MEET THE TEAM</h2>
-        <p class="section-subtitle">The dedicated five-member talent driving technical implementation and project excellence for [visionaries].</p>
+        <p class="section-subtitle">Hover over any team member card to view their professional profile and background summary.</p>
       </div>
 
       <div class="team-grid">
-        <!-- Member 1 (Team Lead) -->
-        <div class="team-card is-lead tanmay">
+        <!-- Member 1: Tanmay Mohod -->
+        <div class="team-card is-lead">
+          <img src="tanmay.png" alt="" class="card-bg-img">
           <div class="team-avatar">
             <img src="tanmaym.png" alt="Tanmay Mohod">
           </div>
@@ -1296,10 +1320,15 @@
             <span class="team-skills-label">Skills</span>
             <span class="team-skills-value">Project Planning, Strategy &amp; Coordination</span>
           </div>
+          <div class="team-bio-overlay">
+            <h4>Tanmay Mohod</h4>
+            <p>Strategic planner and founder with hands-on enterprise experience across digital marketing, media production, and client growth campaigns. Currently pursuing B.Tech engineering in Pune, Tanmay leads [visionaries] by aligning team timelines, defining workflow scope, and driving agency execution to deliver scalable AI solutions.</p>
+          </div>
         </div>
 
-        <!-- Member 2 -->
-        <div class="team-card krishna">
+        <!-- Member 2: Krishna Jadhav -->
+        <div class="team-card">
+          <img src="krishna.png" alt="" class="card-bg-img">
           <div class="team-avatar">
             <img src="krishnam.png" alt="Krishna Jadhav">
           </div>
@@ -1309,10 +1338,15 @@
             <span class="team-skills-label">Skills</span>
             <span class="team-skills-value">UI/UX Design, Prototyping &amp; Wireframing</span>
           </div>
+          <div class="team-bio-overlay">
+            <h4>Krishna Jadhav</h4>
+            <p>Aspiring visual designer and B.Tech student at MIT Academy of Engineering with a proven track record in UI/UX innovation. Awarded 1st rank for designing an interactive digital showcase and experienced in leading campus-wide Design for Change (DFC) initiatives, Krishna crafts intuitive interfaces and visual identities for AI tools.</p>
+          </div>
         </div>
 
-        <!-- Member 3 -->
-        <div class="team-card shivam">
+        <!-- Member 3: Shivam Kale -->
+        <div class="team-card">
+          <img src="shivam.png" alt="" class="card-bg-img">
           <div class="team-avatar">
             <img src="shivamm.png" alt="Shivam Kale">
           </div>
@@ -1322,10 +1356,15 @@
             <span class="team-skills-label">Skills</span>
             <span class="team-skills-value">Coding, API Integration &amp; Implementation</span>
           </div>
+          <div class="team-bio-overlay">
+            <h4>Shivam Kale</h4>
+            <p>Computer Science &amp; Data Science undergraduate at MIT AOE with strong competencies in C, C++, Python, and full-stack software development. Shivam specializes in converting agency concepts into functional code, integrating core APIs, and building reliable data pipelines for AI automation workflows.</p>
+          </div>
         </div>
 
-        <!-- Member 4 -->
-        <div class="team-card siddesh">
+        <!-- Member 4: Siddesh Satkar -->
+        <div class="team-card">
+          <img src="siddesh.png" alt="" class="card-bg-img">
           <div class="team-avatar">
             <img src="siddeshm.png" alt="Siddesh Satkar">
           </div>
@@ -1335,10 +1374,15 @@
             <span class="team-skills-label">Skills</span>
             <span class="team-skills-value">Market Research, Analysis &amp; Testing</span>
           </div>
+          <div class="team-bio-overlay">
+            <h4>Siddesh Satkar</h4>
+            <p>Data Science student and Generative AI enthusiast at MIT AOE with a focus on practical AI tools and creative application development. Combining structured analytical skills with competitive team discipline, Siddesh leads research into AI frameworks, prompt engineering, and automated market intelligence.</p>
+          </div>
         </div>
 
-        <!-- Member 5 -->
-        <div class="team-card yash">
+        <!-- Member 5: Yash Bagul -->
+        <div class="team-card">
+          <img src="yash.png" alt="" class="card-bg-img">
           <div class="team-avatar">
             <img src="yashm.png" alt="Yash Bagul">
           </div>
@@ -1347,6 +1391,10 @@
           <div class="team-skills-box">
             <span class="team-skills-label">Skills</span>
             <span class="team-skills-value">Schedule Tracking, Facilitation &amp; Momentum</span>
+          </div>
+          <div class="team-bio-overlay">
+            <h4>Yash Bagul</h4>
+            <p>Computer Engineering student at MIT AOE combining disciplined athletic leadership with analytical problem-solving skills. Former football team captain with a strong background in competitive sports, Yash manages agency timelines, tracks milestone delivery, and maintains high team momentum.</p>
           </div>
         </div>
       </div>
@@ -1385,15 +1433,15 @@
               <td class="td-role">Planner (Team Lead)</td>
               <td class="td-task">Define project scope, map out sprint timelines, align resource allocation, and monitor team milestone completion.</td>
               <td class="td-deliverable">Project Roadmap, Resource Allocation Matrix, and Weekly Sprint Summaries</td>
-              <td class="td-deadline">Nov 15, 2026</td>
-              <td><span class="badge-status status-in-progress">In Progress</span></td>
+              <td class="td-deadline">Oct 10, 2026</td>
+              <td><span class="badge-status status-completed">Completed</span></td>
             </tr>
             <tr>
               <td class="td-member">Krishna Jadhav</td>
               <td class="td-role">Designer</td>
               <td class="td-task">Create user interface wireframes, design graphic assets, build high-fidelity interactive prototypes, and establish style guides.</td>
               <td class="td-deliverable">Figma UI Prototypes, Brand Asset Kit, and Component Style Guide</td>
-              <td class="td-deadline">Nov 22, 2026</td>
+              <td class="td-deadline">Oct 11, 2026</td>
               <td><span class="badge-status status-completed">Completed</span></td>
             </tr>
             <tr>
@@ -1401,24 +1449,24 @@
               <td class="td-role">Maker / Developer</td>
               <td class="td-task">Build front-end and back-end application features, integrate core APIs, write clean code, and resolve technical bugs.</td>
               <td class="td-deliverable">Source Code Repository, API Integration Layer, and Functional Web Build</td>
-              <td class="td-deadline">Nov 29, 2026</td>
-              <td><span class="badge-status status-in-progress">In Progress</span></td>
+              <td class="td-deadline">Oct 13, 2026</td>
+              <td><span class="badge-status status-completed">Completed</span></td>
             </tr>
             <tr>
               <td class="td-member">Siddesh Satkar</td>
               <td class="td-role">Researcher</td>
               <td class="td-task">Gather market and user insights, conduct competitor analysis, evaluate technical tools, and document reference data.</td>
               <td class="td-deliverable">Market Research Report, Competitor Analysis Matrix, and User Feedback Summary</td>
-              <td class="td-deadline">Dec 06, 2026</td>
-              <td><span class="badge-status status-pending">Pending</span></td>
+              <td class="td-deadline">Oct 15, 2026</td>
+              <td><span class="badge-status status-completed">Completed</span></td>
             </tr>
             <tr>
               <td class="td-member">Yash Bagul</td>
               <td class="td-role">Energizer / Time Keeper</td>
               <td class="td-task">Track daily task deadlines, organize team check-in schedules, maintain progress logs, and facilitate team coordination.</td>
               <td class="td-deliverable">Daily Standup Logs, Schedule Tracking Dashboard, and Task Completion Metrics</td>
-              <td class="td-deadline">Dec 13, 2026</td>
-              <td><span class="badge-status status-pending">Pending</span></td>
+              <td class="td-deadline">Oct 16, 2026</td>
+              <td><span class="badge-status status-completed">Completed</span></td>
             </tr>
           </tbody>
         </table>
@@ -1507,7 +1555,6 @@
         </table>
       </div>
 
-      <!-- RACI Legend -->
       <div class="raci-legend-card">
         <div class="legend-title">
           <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
@@ -1559,7 +1606,6 @@
         <p class="section-subtitle">Code of professional conduct, conflict mediation protocol, and escalation governance for [visionaries].</p>
       </div>
 
-      <!-- 8 Company Rules -->
       <div class="rules-grid">
         <div class="rule-card">
           <span class="rule-number">Rule 01</span>
@@ -1610,7 +1656,6 @@
         </div>
       </div>
 
-      <!-- 4-Level Conflict Resolution Process -->
       <div class="process-container">
         <div class="process-heading">
           <h3>4-Level Conflict Resolution Process</h3>
@@ -1618,28 +1663,24 @@
         </div>
 
         <div class="conflict-levels">
-          <!-- Level 1 -->
           <div class="level-step">
             <div class="level-badge-num">1</div>
             <h4>Level 1: Direct Discussion</h4>
             <p>Disputing members must hold a private, professional discussion directly within 48 hours to air concerns, clarify misunderstandings, and reach mutual agreement.</p>
           </div>
 
-          <!-- Level 2 -->
           <div class="level-step">
             <div class="level-badge-num">2</div>
             <h4>Level 2: Team Lead Mediation</h4>
             <p>If direct talks fail within 48 hours, Team Lead Tanmay Mohod convenes a formal mediation session, assesses both sides, and officially records the meeting notes and action plan.</p>
           </div>
 
-          <!-- Level 3 -->
           <div class="level-step">
             <div class="level-badge-num">3</div>
             <h4>Level 3: All 5 Members Vote</h4>
             <p>If informal mediation cannot achieve compromise, the issue is brought before the full team. All 5 members cast an equal vote, and the majority decision becomes binding.</p>
           </div>
 
-          <!-- Level 4 -->
           <div class="level-step final-level">
             <div class="level-badge-num">4</div>
             <h4>Level 4: Dean Escalation</h4>
@@ -1648,9 +1689,7 @@
         </div>
       </div>
 
-      <!-- Warning/Penalty Policy & Mandatory Documentation -->
       <div class="sub-policy-grid">
-        <!-- Warning / Penalty Policy -->
         <div class="policy-box">
           <h4>
             <svg width="22" height="22" fill="none" stroke="#f59e0b" stroke-width="2" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
@@ -1681,7 +1720,6 @@
           </ul>
         </div>
 
-        <!-- Documentation Rule -->
         <div class="policy-box">
           <h4>
             <svg width="22" height="22" fill="none" stroke="#818cf8" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
@@ -1724,9 +1762,8 @@
     </div>
   </footer>
 
-  <!-- JavaScript for Responsive Navigation and Interactive Enhancements -->
+  <!-- JavaScript for Navigation & Interactivity -->
   <script>
-    // Mobile navigation toggle
     const mobileBtn = document.getElementById('mobileMenuToggle');
     const navMenu = document.getElementById('navMenu');
 
@@ -1734,14 +1771,12 @@
       navMenu.classList.toggle('show');
     });
 
-    // Close menu when clicking link
     document.querySelectorAll('#navMenu a').forEach(link => {
       link.addEventListener('click', () => {
         navMenu.classList.remove('show');
       });
     });
 
-    // Active link highlighting on scroll
     const sections = document.querySelectorAll('section');
     const navLinks = document.querySelectorAll('nav a');
 
