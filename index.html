@@ -1,0 +1,1766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[visionaries] | AI Automation Agency</title>
+  <style>
+    /* CSS Reset & Design Variables */
+    :root {
+      --bg-primary: #0b0f19;
+      --bg-secondary: #111827;
+      --bg-card: #1e293b;
+      --bg-card-hover: #283548;
+      --accent: #6366f1;
+      --accent-hover: #4f46e5;
+      --accent-light: rgba(99, 102, 241, 0.15);
+      --accent-glow: rgba(99, 102, 241, 0.35);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --border-color: #334155;
+      --border-light: rgba(255, 255, 255, 0.08);
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --info: #3b82f6;
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-full: 9999px;
+      --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+      --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      font-family: var(--font-family);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* Layout & Containers */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    section {
+      padding: 5rem 0;
+      scroll-margin-top: 5rem;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    /* Header & Navigation Bar */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background-color: rgba(11, 15, 25, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      transition: all 0.3s ease;
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 4.5rem;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .brand-logo img {
+      height: 38px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+      mix-blend-mode: screen;
+    }
+
+    .brand-logo .agency-tag {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-muted);
+      background: var(--bg-card);
+      padding: 0.2rem 0.6rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-color);
+      font-weight: 600;
+      margin-left: 0.4rem;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 1.75rem;
+      align-items: center;
+    }
+
+    nav a {
+      color: var(--text-muted);
+      font-size: 0.925rem;
+      font-weight: 500;
+      transition: color 0.2s ease, transform 0.2s ease;
+      position: relative;
+      padding: 0.4rem 0;
+    }
+
+    nav a:hover,
+    nav a.active {
+      color: var(--text-main);
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--accent);
+      transition: width 0.3s ease;
+    }
+
+    nav a:hover::after,
+    nav a.active::after {
+      width: 100%;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-main);
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    /* Section Headers */
+    .section-header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+
+    .section-badge {
+      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--accent);
+      background-color: var(--accent-light);
+      padding: 0.35rem 0.9rem;
+      border-radius: var(--radius-full);
+      margin-bottom: 0.75rem;
+      border: 1px solid var(--accent-glow);
+    }
+
+    /* Hero Brand & Logo Styles */
+    .hero-brand-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-logo-img {
+      max-width: 270px;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      display: block;
+      mix-blend-mode: screen;
+    }
+
+    .section-title {
+      font-size: 2.25rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--text-main);
+      margin-bottom: 0.8rem;
+    }
+
+    .section-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    /* Hero Banner */
+    .hero-banner {
+      padding: 4.5rem 0 3rem 0;
+      background: radial-gradient(circle at 50% 10%, rgba(99, 102, 241, 0.15), transparent 70%);
+      text-align: center;
+    }
+
+    .hero-title {
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 1.25rem;
+      line-height: 1.2;
+    }
+
+    .hero-title .highlight {
+      background: linear-gradient(135deg, #818cf8 0%, #c084fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-desc {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 720px;
+      margin: 0 auto 2rem auto;
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .stat-value {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    /* 1. ABOUT SECTION */
+    .mission-vision-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3.5rem;
+    }
+
+    .mv-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 2rem;
+      position: relative;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .mv-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent);
+    }
+
+    .mv-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--accent-light);
+      color: var(--accent);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+    }
+
+    .mv-card h3 {
+      font-size: 1.35rem;
+      margin-bottom: 0.75rem;
+      color: var(--text-main);
+    }
+
+    .mv-card p {
+      color: var(--text-muted);
+      font-size: 0.975rem;
+      line-height: 1.65;
+    }
+
+    .services-title-wrapper {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .services-title-wrapper h3 {
+      font-size: 1.6rem;
+      font-weight: 700;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.75rem;
+    }
+
+    .service-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.25s ease;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .service-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+      box-shadow: var(--shadow-md);
+    }
+
+    .service-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .service-icon-box {
+      width: 42px;
+      height: 42px;
+      background: rgba(99, 102, 241, 0.12);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #a5b4fc;
+      flex-shrink: 0;
+    }
+
+    .service-header h4 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .service-desc {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.25rem;
+      line-height: 1.55;
+    }
+
+    .use-case-box {
+      background-color: rgba(15, 23, 42, 0.6);
+      border-left: 3px solid var(--accent);
+      padding: 0.85rem 1rem;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      font-size: 0.875rem;
+    }
+
+    .use-case-box .uc-label {
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.725rem;
+      letter-spacing: 0.8px;
+      color: #818cf8;
+      display: block;
+      margin-bottom: 0.35rem;
+    }
+
+    .use-case-box p {
+      color: #cbd5e1;
+      margin: 0;
+      line-height: 1.45;
+    }
+
+    /* 2. MEET THE TEAM SECTION WITH TRANSLUCENT BLURRED PHOTO BACKGROUNDS */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .team-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 1;
+    }
+
+    /* Semi-blurry translucent background pseudo-element */
+    .team-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      filter: blur(5px);
+      opacity: 0.35;
+      z-index: -1;
+      transition: transform 0.3s ease;
+    }
+
+    .team-card:hover::before {
+      transform: scale(1.08);
+    }
+
+    /* Background Images linked to main member PNGs */
+    .team-card.tanmay::before { background-image: url('tanmay.png'); }
+    .team-card.krishna::before { background-image: url('krishna.png'); }
+    .team-card.shivam::before { background-image: url('shivam.png'); }
+    .team-card.siddesh::before { background-image: url('siddesh.png'); }
+    .team-card.yash::before { background-image: url('yash.png'); }
+
+    .team-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+      box-shadow: var(--shadow-md);
+    }
+
+    .team-card.is-lead {
+      border-color: rgba(99, 102, 241, 0.5);
+      background: linear-gradient(180deg, rgba(99, 102, 241, 0.12) 0%, rgba(30, 41, 59, 0.9) 40%);
+    }
+
+    /* Circular Profile Photo Badge Styling */
+    .team-avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: var(--radius-full);
+      background: var(--bg-secondary);
+      border: 2px solid var(--border-color);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .team-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .team-card.is-lead .team-avatar {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
+    }
+
+    .team-name {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+      color: var(--text-main);
+      position: relative;
+      z-index: 2;
+    }
+
+    .lead-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      background: #4f46e5;
+      color: #ffffff;
+      padding: 0.2rem 0.65rem;
+      border-radius: var(--radius-full);
+      margin-bottom: 0.65rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .team-role {
+      font-size: 0.925rem;
+      font-weight: 600;
+      color: #93c5fd;
+      margin-bottom: 0.85rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .team-skills-box {
+      margin-top: 0.5rem;
+      padding-top: 0.85rem;
+      border-top: 1px solid var(--border-light);
+      width: 100%;
+      position: relative;
+      z-index: 2;
+    }
+
+    .team-skills-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-dim);
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      display: block;
+    }
+
+    .team-skills-value {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .team-lead-callout {
+      margin-top: 2rem;
+      padding: 1rem 1.5rem;
+      background: var(--accent-light);
+      border: 1px solid var(--accent-glow);
+      border-radius: var(--radius-md);
+      text-align: center;
+      font-weight: 600;
+      color: #e0e7ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+
+    /* 3. WORK DISTRIBUTION TABLE */
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.925rem;
+      min-width: 750px;
+    }
+
+    th {
+      background: #172033;
+      color: #cbd5e1;
+      padding: 1rem 1.25rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.8px;
+      border-bottom: 2px solid var(--border-color);
+    }
+
+    td {
+      padding: 1.1rem 1.25rem;
+      border-bottom: 1px solid var(--border-light);
+      color: var(--text-muted);
+      vertical-align: middle;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background-color: rgba(255, 255, 255, 0.02);
+    }
+
+    .td-member {
+      font-weight: 700;
+      color: var(--text-main);
+      white-space: nowrap;
+    }
+
+    .td-role {
+      font-weight: 600;
+      color: #93c5fd;
+      white-space: nowrap;
+    }
+
+    .td-task {
+      color: #e2e8f0;
+      line-height: 1.45;
+    }
+
+    .td-deliverable {
+      color: #cbd5e1;
+    }
+
+    .td-deadline {
+      font-family: monospace;
+      font-size: 0.875rem;
+      color: #cbd5e1;
+      white-space: nowrap;
+    }
+
+    .badge-status {
+      display: inline-block;
+      padding: 0.25rem 0.65rem;
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    .status-completed {
+      background-color: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .status-in-progress {
+      background-color: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+
+    .status-pending {
+      background-color: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    /* 4. RESPONSIBILITY MATRIX (RACI) */
+    .raci-table th.col-member {
+      text-align: center;
+      width: 13%;
+    }
+
+    .raci-table td.cell-raci {
+      text-align: center;
+    }
+
+    .raci-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      font-weight: 800;
+      font-size: 0.95rem;
+    }
+
+    .raci-R {
+      background-color: rgba(59, 130, 246, 0.2);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.4);
+    }
+
+    .raci-A {
+      background-color: rgba(16, 185, 129, 0.25);
+      color: #34d399;
+      border: 2px solid #10b981;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.35);
+    }
+
+    .raci-C {
+      background-color: rgba(168, 85, 247, 0.2);
+      color: #c084fc;
+      border: 1px solid rgba(168, 85, 247, 0.4);
+    }
+
+    .raci-I {
+      background-color: rgba(148, 163, 184, 0.12);
+      color: #94a3b8;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+    }
+
+    .raci-legend-card {
+      margin-top: 2rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.5rem 2rem;
+    }
+
+    .legend-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .raci-legend-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+    }
+
+    .legend-desc h5 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 0.2rem;
+    }
+
+    .legend-desc p {
+      font-size: 0.825rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* 5. RULES & CONFLICT RESOLUTION */
+    .rules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 4rem;
+    }
+
+    .rule-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      position: relative;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .rule-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent);
+    }
+
+    .rule-number {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.4rem;
+      display: block;
+    }
+
+    .rule-card h4 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 0.6rem;
+    }
+
+    .rule-card p {
+      color: var(--text-muted);
+      font-size: 0.925rem;
+      line-height: 1.55;
+    }
+
+    .process-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 2.5rem 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .process-heading {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .process-heading h3 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 0.5rem;
+    }
+
+    .process-heading p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .conflict-levels {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      position: relative;
+    }
+
+    .level-step {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.75rem 1.5rem;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.25s ease;
+    }
+
+    .level-step:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+    }
+
+    .level-badge-num {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-full);
+      background: var(--accent-light);
+      border: 1px solid var(--accent);
+      color: var(--text-main);
+      font-weight: 800;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+
+    .level-step.final-level .level-badge-num {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: var(--danger);
+      color: #f87171;
+    }
+
+    .level-step h4 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 0.6rem;
+    }
+
+    .level-step p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    .sub-policy-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .policy-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 2rem;
+    }
+
+    .policy-box h4 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .penalty-tiers {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .penalty-tier-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+      font-size: 0.925rem;
+      color: var(--text-muted);
+    }
+
+    .tier-indicator {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 0.2rem 0.55rem;
+      border-radius: var(--radius-sm);
+      white-space: nowrap;
+      margin-top: 0.1rem;
+    }
+
+    .tier-1 {
+      background: rgba(245, 158, 11, 0.2);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.4);
+    }
+
+    .tier-2 {
+      background: rgba(249, 115, 22, 0.2);
+      color: #fb923c;
+      border: 1px solid rgba(249, 115, 22, 0.4);
+    }
+
+    .tier-3 {
+      background: rgba(239, 68, 68, 0.2);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+    }
+
+    .doc-mandate {
+      background: rgba(99, 102, 241, 0.08);
+      border-left: 3px solid var(--accent);
+      padding: 1.2rem;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      color: #cbd5e1;
+      font-size: 0.925rem;
+      line-height: 1.6;
+    }
+
+    /* FOOTER */
+    footer {
+      background-color: #080c14;
+      border-top: 1px solid var(--border-color);
+      padding: 3.5rem 0 2.5rem 0;
+      color: var(--text-muted);
+      font-size: 0.925rem;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .footer-info h4 {
+      color: var(--text-main);
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+    }
+
+    .footer-institution {
+      color: #818cf8;
+      font-weight: 600;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .footer-links a:hover {
+      color: var(--text-main);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      font-size: 0.825rem;
+      color: var(--text-dim);
+    }
+
+    /* Responsive Media Queries */
+    @media (max-width: 900px) {
+      .hero-title {
+        font-size: 2.25rem;
+      }
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+      .raci-table th, .raci-table td {
+        padding: 0.75rem 0.5rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      nav ul {
+        display: none;
+        position: absolute;
+        top: 4.5rem;
+        left: 0;
+        right: 0;
+        background-color: var(--bg-secondary);
+        flex-direction: column;
+        padding: 1.5rem;
+        border-bottom: 1px solid var(--border-color);
+        box-shadow: var(--shadow-lg);
+        gap: 1.25rem;
+      }
+
+      nav ul.show {
+        display: flex;
+      }
+
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      .hero-stats {
+        gap: 1.5rem;
+      }
+
+      .conflict-levels {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-content {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header>
+    <div class="container nav-container">
+      <a href="#" class="brand-logo">
+        <img src="logo.png" alt="Company Logo">
+        <span class="agency-tag">AI Automation</span>
+      </a>
+
+      <button class="mobile-menu-btn" id="mobileMenuToggle" aria-label="Toggle Navigation">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+
+      <nav>
+        <ul id="navMenu">
+          <li><a href="#about">About</a></li>
+          <li><a href="#team">Team</a></li>
+          <li><a href="#work-distribution">Work Distribution</a></li>
+          <li><a href="#raci">RACI Matrix</a></li>
+          <li><a href="#rules">Rules &amp; Governance</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Banner -->
+  <div class="hero-banner">
+    <div class="container">
+      <div class="hero-brand-wrapper">
+        <img src="logo.png" alt="Visionaries Logo" class="hero-logo-img">
+        <span class="section-badge" style="margin-top: 0.5rem;">College Academic Project</span>
+      </div>
+      <h1 class="hero-title">Revolution demands <span class="highlight">VISION.</span></h1>
+      <p class="hero-desc">
+        Welcome to <strong>[visionaries]</strong> — a modern student-led AI automation agency dedicated to eliminating repetitive work, connecting software systems, and delivering dependable artificial intelligence solutions for tomorrow's businesses.
+      </p>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-value">5</span>
+          <span class="stat-label">Core AI Services</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">5</span>
+          <span class="stat-label">Project Members</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">4-Level</span>
+          <span class="stat-label">Governance Model</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">100%</span>
+          <span class="stat-label">Process Transparency</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: ABOUT THE COMPANY -->
+  <section id="about">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">Section 1</span>
+        <h2 class="section-title">ABOUT THE COMPANY</h2>
+        <p class="section-subtitle">Discover our founding philosophy, strategic vision, and five specialized AI automation services engineered to modernize business operations.</p>
+      </div>
+
+      <!-- Short Intro, Mission & Vision -->
+      <div class="mission-vision-grid">
+        <div class="mv-card">
+          <div class="mv-icon">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          </div>
+          <h3>Short Introduction</h3>
+          <p>
+            <strong>[visionaries]</strong> is a dynamic college-developed AI automation agency. We bridge the gap between complex artificial intelligence research and practical daily business workflows, empowering organizations to eliminate manual drudgery and scale effortlessly.
+          </p>
+        </div>
+
+        <div class="mv-card">
+          <div class="mv-icon">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/></svg>
+          </div>
+          <h3>Our Mission</h3>
+          <p>
+            To democratize cutting-edge artificial intelligence for growing enterprises by delivering intuitive, reliable, and cost-effective automation systems that maximize operational output and reduce operating expenses.
+          </p>
+        </div>
+
+        <div class="mv-card">
+          <div class="mv-icon">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+          <h3>Our Vision</h3>
+          <p>
+            To stand as an exemplary academic-born agency pioneering ethical AI integration, empowering human workforces through autonomous systems, and setting benchmark standards in student enterprise excellence.
+          </p>
+        </div>
+      </div>
+
+      <!-- 5 Services -->
+      <div class="services-title-wrapper">
+        <h3>Our 5 Core AI Automation Services</h3>
+      </div>
+
+      <div class="services-grid">
+        <!-- Service 1: Chatbots -->
+        <div class="service-card">
+          <div>
+            <div class="service-header">
+              <div class="service-icon-box">
+                <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              </div>
+              <h4>1. Chatbots</h4>
+            </div>
+            <p class="service-desc">
+              We design and deploy 24/7 intelligent conversational agents that provide immediate, context-aware answers to user inquiries across web and mobile platforms.<br>
+              These bots train on company documentation to resolve customer issues accurately and route high-priority tickets to human staff.
+            </p>
+          </div>
+          <div class="use-case-box">
+            <span class="uc-label">Real-World Use Case</span>
+            <p>An e-commerce store integrates our AI chatbot to resolve 75% of shipping status and refund queries automatically, cutting customer support wait times from 3 hours to instant resolution.</p>
+          </div>
+        </div>
+
+        <!-- Service 2: Workflow Automation -->
+        <div class="service-card">
+          <div>
+            <div class="service-header">
+              <div class="service-icon-box">
+                <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+              </div>
+              <h4>2. Workflow Automation</h4>
+            </div>
+            <p class="service-desc">
+              We link fragmented SaaS software and internal databases into interconnected pipelines that eliminate repetitive copy-pasting and manual data transfers.<br>
+              Every stage of your business operations triggers the next automatically, ensuring error-free handoffs and continuous team alignment.
+            </p>
+          </div>
+          <div class="use-case-box">
+            <span class="uc-label">Real-World Use Case</span>
+            <p>A real estate agency automatically routes new web inquiries into CRM software, generates customized property brochures, and alerts the nearest sales broker within 60 seconds.</p>
+          </div>
+        </div>
+
+        <!-- Service 3: Lead/Email Automation -->
+        <div class="service-card">
+          <div>
+            <div class="service-header">
+              <div class="service-icon-box">
+                <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </div>
+              <h4>3. Lead/Email Automation</h4>
+            </div>
+            <p class="service-desc">
+              We implement intelligent email engines that filter inbound leads, evaluate prospect buying signals, and dispatch tailored multi-step follow-up sequences.<br>
+              The system nurtures prospects on autopilot and directly schedules qualified discovery calls into sales representatives' calendars.
+            </p>
+          </div>
+          <div class="use-case-box">
+            <span class="uc-label">Real-World Use Case</span>
+            <p>A B2B software startup utilizes our email pipeline to personalize cold outreach based on LinkedIn profile data, achieving a 34% reply rate and booking 25 weekly demos.</p>
+          </div>
+        </div>
+
+        <!-- Service 4: Document Processing -->
+        <div class="service-card">
+          <div>
+            <div class="service-header">
+              <div class="service-icon-box">
+                <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              </div>
+              <h4>4. Document Processing</h4>
+            </div>
+            <p class="service-desc">
+              We utilize optical character recognition and large language models to extract key metadata, summarize long records, and classify incoming files automatically.<br>
+              This technology converts piles of unstructured PDF forms, receipts, and legal agreements into structured, queryable business databases.
+            </p>
+          </div>
+          <div class="use-case-box">
+            <span class="uc-label">Real-World Use Case</span>
+            <p>An accounting firm processes hundreds of monthly vendor invoices by automatically extracting line items, dates, and tax totals directly into accounting software without human data entry.</p>
+          </div>
+        </div>
+
+        <!-- Service 5: AI Voice Agents -->
+        <div class="service-card">
+          <div>
+            <div class="service-header">
+              <div class="service-icon-box">
+                <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+              </div>
+              <h4>5. AI Voice Agents</h4>
+            </div>
+            <p class="service-desc">
+              We develop human-like conversational voice bots capable of conducting inbound and outbound telephone calls with natural cadence and tone variation.<br>
+              These agents clarify patient or customer intents, execute appointment bookings, and transcribe conversation highlights into internal management software.
+            </p>
+          </div>
+          <div class="use-case-box">
+            <span class="uc-label">Real-World Use Case</span>
+            <p>A regional healthcare clinic deploys our voice assistant to manage incoming patient appointment bookings and send telephone reminders, reducing no-show rates by 42%.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: MEET THE TEAM -->
+  <section id="team">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">Section 2</span>
+        <h2 class="section-title">MEET THE TEAM</h2>
+        <p class="section-subtitle">The dedicated five-member talent driving technical implementation and project excellence for [visionaries].</p>
+      </div>
+
+      <div class="team-grid">
+        <!-- Member 1 (Team Lead) -->
+        <div class="team-card is-lead tanmay">
+          <div class="team-avatar">
+            <img src="tanmaym.png" alt="Tanmay Mohod">
+          </div>
+          <span class="lead-badge">Team Lead</span>
+          <h3 class="team-name">Tanmay Mohod</h3>
+          <p class="team-role">Planner</p>
+          <div class="team-skills-box">
+            <span class="team-skills-label">Skills</span>
+            <span class="team-skills-value">Project Planning, Strategy &amp; Coordination</span>
+          </div>
+        </div>
+
+        <!-- Member 2 -->
+        <div class="team-card krishna">
+          <div class="team-avatar">
+            <img src="krishnam.png" alt="Krishna Jadhav">
+          </div>
+          <h3 class="team-name">Krishna Jadhav</h3>
+          <p class="team-role">Designer</p>
+          <div class="team-skills-box">
+            <span class="team-skills-label">Skills</span>
+            <span class="team-skills-value">UI/UX Design, Prototyping &amp; Wireframing</span>
+          </div>
+        </div>
+
+        <!-- Member 3 -->
+        <div class="team-card shivam">
+          <div class="team-avatar">
+            <img src="shivamm.png" alt="Shivam Kale">
+          </div>
+          <h3 class="team-name">Shivam Kale</h3>
+          <p class="team-role">Maker / Developer</p>
+          <div class="team-skills-box">
+            <span class="team-skills-label">Skills</span>
+            <span class="team-skills-value">Coding, API Integration &amp; Implementation</span>
+          </div>
+        </div>
+
+        <!-- Member 4 -->
+        <div class="team-card siddesh">
+          <div class="team-avatar">
+            <img src="siddeshm.png" alt="Siddesh Satkar">
+          </div>
+          <h3 class="team-name">Siddesh Satkar</h3>
+          <p class="team-role">Researcher</p>
+          <div class="team-skills-box">
+            <span class="team-skills-label">Skills</span>
+            <span class="team-skills-value">Market Research, Analysis &amp; Testing</span>
+          </div>
+        </div>
+
+        <!-- Member 5 -->
+        <div class="team-card yash">
+          <div class="team-avatar">
+            <img src="yashm.png" alt="Yash Bagul">
+          </div>
+          <h3 class="team-name">Yash Bagul</h3>
+          <p class="team-role">Energizer / Time Keeper</p>
+          <div class="team-skills-box">
+            <span class="team-skills-label">Skills</span>
+            <span class="team-skills-value">Schedule Tracking, Facilitation &amp; Momentum</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="team-lead-callout">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span><strong>Executive Leadership:</strong> Team Lead: Tanmay Mohod oversees project deliverables, coordination, and agency standards.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: WORK DISTRIBUTION TABLE -->
+  <section id="work-distribution">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">Section 3</span>
+        <h2 class="section-title">WORK DISTRIBUTION TABLE</h2>
+        <p class="section-subtitle">Transparent task allocations aligned with each individual member's designated role, technical skillset, and project milestones.</p>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Member Name</th>
+              <th>Role</th>
+              <th>Tasks Assigned</th>
+              <th>Deliverables</th>
+              <th>Deadline</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="td-member">Tanmay Mohod</td>
+              <td class="td-role">Planner (Team Lead)</td>
+              <td class="td-task">Define project scope, map out sprint timelines, align resource allocation, and monitor team milestone completion.</td>
+              <td class="td-deliverable">Project Roadmap, Resource Allocation Matrix, and Weekly Sprint Summaries</td>
+              <td class="td-deadline">Nov 15, 2026</td>
+              <td><span class="badge-status status-in-progress">In Progress</span></td>
+            </tr>
+            <tr>
+              <td class="td-member">Krishna Jadhav</td>
+              <td class="td-role">Designer</td>
+              <td class="td-task">Create user interface wireframes, design graphic assets, build high-fidelity interactive prototypes, and establish style guides.</td>
+              <td class="td-deliverable">Figma UI Prototypes, Brand Asset Kit, and Component Style Guide</td>
+              <td class="td-deadline">Nov 22, 2026</td>
+              <td><span class="badge-status status-completed">Completed</span></td>
+            </tr>
+            <tr>
+              <td class="td-member">Shivam Kale</td>
+              <td class="td-role">Maker / Developer</td>
+              <td class="td-task">Build front-end and back-end application features, integrate core APIs, write clean code, and resolve technical bugs.</td>
+              <td class="td-deliverable">Source Code Repository, API Integration Layer, and Functional Web Build</td>
+              <td class="td-deadline">Nov 29, 2026</td>
+              <td><span class="badge-status status-in-progress">In Progress</span></td>
+            </tr>
+            <tr>
+              <td class="td-member">Siddesh Satkar</td>
+              <td class="td-role">Researcher</td>
+              <td class="td-task">Gather market and user insights, conduct competitor analysis, evaluate technical tools, and document reference data.</td>
+              <td class="td-deliverable">Market Research Report, Competitor Analysis Matrix, and User Feedback Summary</td>
+              <td class="td-deadline">Dec 06, 2026</td>
+              <td><span class="badge-status status-pending">Pending</span></td>
+            </tr>
+            <tr>
+              <td class="td-member">Yash Bagul</td>
+              <td class="td-role">Energizer / Time Keeper</td>
+              <td class="td-task">Track daily task deadlines, organize team check-in schedules, maintain progress logs, and facilitate team coordination.</td>
+              <td class="td-deliverable">Daily Standup Logs, Schedule Tracking Dashboard, and Task Completion Metrics</td>
+              <td class="td-deadline">Dec 13, 2026</td>
+              <td><span class="badge-status status-pending">Pending</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: RESPONSIBILITY MATRIX (RACI) -->
+  <section id="raci">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">Section 4</span>
+        <h2 class="section-title">RESPONSIBILITY MATRIX (RACI)</h2>
+        <p class="section-subtitle">Accountability framework ensuring every agency process has exactly one Accountable (A) owner alongside Responsible, Consulted, and Informed stakeholders.</p>
+      </div>
+
+      <div class="table-container">
+        <table class="raci-table">
+          <thead>
+            <tr>
+              <th style="width: 25%;">Activity / Process</th>
+              <th class="col-member">Tanmay Mohod<br><small>(Team Lead)</small></th>
+              <th class="col-member">Krishna Jadhav</th>
+              <th class="col-member">Shivam Kale</th>
+              <th class="col-member">Siddesh Satkar</th>
+              <th class="col-member">Yash Bagul</th>
+              <th class="col-member">Dean of the Branch</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="td-member">Project Planning &amp; Scope</td>
+              <td class="cell-raci"><span class="raci-badge raci-A" title="Accountable">A</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-C" title="Consulted">C</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-C" title="Consulted">C</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-C" title="Consulted">C</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-R" title="Responsible">R</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-I" title="Informed">I</span></td>
+            </tr>
+            <tr>
+              <td class="td-member">Design &amp; Prototyping</td>
+              <td class="cell-raci"><span class="raci-badge raci-C" title="Consulted">C</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-A" title="Accountable">A</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-R" title="Responsible">R</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-C" title="Consulted">C</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-I" title="Informed">I</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-I" title="Informed">I</span></td>
+            </tr>
+            <tr>
+              <td class="td-member">Development &amp; Coding</td>
+              <td class="cell-raci"><span class="raci-badge raci-I" title="Informed">I</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-C" title="Consulted">C</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-A" title="Accountable">A</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-R" title="Responsible">R</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-I" title="Informed">I</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-I" title="Informed">I</span></td>
+            </tr>
+            <tr>
+              <td class="td-member">Research &amp; Analysis</td>
+              <td class="cell-raci"><span class="raci-badge raci-C" title="Consulted">C</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-C" title="Consulted">C</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-R" title="Responsible">R</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-A" title="Accountable">A</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-I" title="Informed">I</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-I" title="Informed">I</span></td>
+            </tr>
+            <tr>
+              <td class="td-member">Schedule &amp; Time Tracking</td>
+              <td class="cell-raci"><span class="raci-badge raci-C" title="Consulted">C</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-I" title="Informed">I</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-I" title="Informed">I</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-I" title="Informed">I</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-A" title="Accountable">A</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-I" title="Informed">I</span></td>
+            </tr>
+            <tr>
+              <td class="td-member">Conflict Resolution</td>
+              <td class="cell-raci"><span class="raci-badge raci-R" title="Responsible">R</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-C" title="Consulted">C</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-C" title="Consulted">C</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-C" title="Consulted">C</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-C" title="Consulted">C</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-A" title="Accountable">A</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- RACI Legend -->
+      <div class="raci-legend-card">
+        <div class="legend-title">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          <span>RACI Definition &amp; Governance Legend</span>
+        </div>
+        <div class="raci-legend-grid">
+          <div class="legend-item">
+            <span class="raci-badge raci-R">R</span>
+            <div class="legend-desc">
+              <h5>Responsible</h5>
+              <p>The role tasked with completing the hands-on execution and operational deliverables of the activity.</p>
+            </div>
+          </div>
+
+          <div class="legend-item">
+            <span class="raci-badge raci-A">A</span>
+            <div class="legend-desc">
+              <h5>Accountable (Single Owner)</h5>
+              <p>The sole decision-maker with final ownership. Exactly one person is accountable per process row.</p>
+            </div>
+          </div>
+
+          <div class="legend-item">
+            <span class="raci-badge raci-C">C</span>
+            <div class="legend-desc">
+              <h5>Consulted</h5>
+              <p>Subject experts providing two-way insights, guidance, and technical validation prior to final execution.</p>
+            </div>
+          </div>
+
+          <div class="legend-item">
+            <span class="raci-badge raci-I">I</span>
+            <div class="legend-desc">
+              <h5>Informed</h5>
+              <p>Individuals kept updated on milestones, decisions, and overall progress via periodic reports.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: RULES, REGULATIONS AND CONFLICT RESOLUTION -->
+  <section id="rules">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">Section 5</span>
+        <h2 class="section-title">RULES, REGULATIONS &amp; CONFLICT RESOLUTION</h2>
+        <p class="section-subtitle">Code of professional conduct, conflict mediation protocol, and escalation governance for [visionaries].</p>
+      </div>
+
+      <!-- 8 Company Rules -->
+      <div class="rules-grid">
+        <div class="rule-card">
+          <span class="rule-number">Rule 01</span>
+          <h4>Work Hours</h4>
+          <p>Every member must commit 15 hours weekly to agency operations, maintaining core team availability between 2:00 PM and 5:00 PM Monday through Friday.</p>
+        </div>
+
+        <div class="rule-card">
+          <span class="rule-number">Rule 02</span>
+          <h4>Communication</h4>
+          <p>Official communication takes place exclusively on Slack and agency email, requiring team members to acknowledge client and peer inquiries within 4 business hours.</p>
+        </div>
+
+        <div class="rule-card">
+          <span class="rule-number">Rule 03</span>
+          <h4>Confidentiality</h4>
+          <p>All internal agency designs, customer intellectual property, and proprietary codebase repositories must remain strictly confidential and protected from unauthorized sharing.</p>
+        </div>
+
+        <div class="rule-card">
+          <span class="rule-number">Rule 04</span>
+          <h4>Client Data Protection</h4>
+          <p>Client business records must be encrypted in transit and at rest, handled with minimal privilege access, and permanently expunged upon project closure.</p>
+        </div>
+
+        <div class="rule-card">
+          <span class="rule-number">Rule 05</span>
+          <h4>Deadlines</h4>
+          <p>Assigned deliverables must be submitted by 11:59 PM on the agreed deadline; any unforeseen blocker must be reported to the Team Lead 24 hours prior.</p>
+        </div>
+
+        <div class="rule-card">
+          <span class="rule-number">Rule 06</span>
+          <h4>Ethical AI Use</h4>
+          <p>All AI models must be vetted for bias, respect privacy regulations, and require human-in-the-loop review to guarantee safe and truthful outputs.</p>
+        </div>
+
+        <div class="rule-card">
+          <span class="rule-number">Rule 07</span>
+          <h4>Attendance</h4>
+          <p>Attendance is mandatory at all weekly sprint reviews; absences due to academic or personal emergencies require notice to the Team Lead 12 hours in advance.</p>
+        </div>
+
+        <div class="rule-card">
+          <span class="rule-number">Rule 08</span>
+          <h4>Quality Checks</h4>
+          <p>No automation system or AI script can be deployed to a client environment without successfully passing peer code review and standardized QA validation.</p>
+        </div>
+      </div>
+
+      <!-- 4-Level Conflict Resolution Process -->
+      <div class="process-container">
+        <div class="process-heading">
+          <h3>4-Level Conflict Resolution Process</h3>
+          <p>Structured, progressive resolution framework designed to resolve friction impartially, quickly, and professionally.</p>
+        </div>
+
+        <div class="conflict-levels">
+          <!-- Level 1 -->
+          <div class="level-step">
+            <div class="level-badge-num">1</div>
+            <h4>Level 1: Direct Discussion</h4>
+            <p>Disputing members must hold a private, professional discussion directly within 48 hours to air concerns, clarify misunderstandings, and reach mutual agreement.</p>
+          </div>
+
+          <!-- Level 2 -->
+          <div class="level-step">
+            <div class="level-badge-num">2</div>
+            <h4>Level 2: Team Lead Mediation</h4>
+            <p>If direct talks fail within 48 hours, Team Lead Tanmay Mohod convenes a formal mediation session, assesses both sides, and officially records the meeting notes and action plan.</p>
+          </div>
+
+          <!-- Level 3 -->
+          <div class="level-step">
+            <div class="level-badge-num">3</div>
+            <h4>Level 3: All 5 Members Vote</h4>
+            <p>If informal mediation cannot achieve compromise, the issue is brought before the full team. All 5 members cast an equal vote, and the majority decision becomes binding.</p>
+          </div>
+
+          <!-- Level 4 -->
+          <div class="level-step final-level">
+            <div class="level-badge-num">4</div>
+            <h4>Level 4: Dean Escalation</h4>
+            <p>As a last resort, serious disputes or deadlock situations are formally referred to the Dean of the Branch, whose executive determination is authoritative and final.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Warning/Penalty Policy & Mandatory Documentation -->
+      <div class="sub-policy-grid">
+        <!-- Warning / Penalty Policy -->
+        <div class="policy-box">
+          <h4>
+            <svg width="22" height="22" fill="none" stroke="#f59e0b" stroke-width="2" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            Warning &amp; Penalty Policy
+          </h4>
+          <p style="color: var(--text-muted); font-size: 0.925rem; margin-bottom: 1.25rem;">
+            A three-tier disciplinary framework is enforced to ensure project integrity and accountability across all members:
+          </p>
+          <ul class="penalty-tiers">
+            <li class="penalty-tier-item">
+              <span class="tier-indicator tier-1">Tier 1</span>
+              <div>
+                <strong style="color: var(--text-main);">First Violation:</strong> Formal verbal warning issued by Team Lead Tanmay Mohod with documented milestones and a 7-day correction timeline.
+              </div>
+            </li>
+            <li class="penalty-tier-item">
+              <span class="tier-indicator tier-2">Tier 2</span>
+              <div>
+                <strong style="color: var(--text-main);">Second Violation:</strong> Official written reprimand, reassignment of critical tasks, and placement on mandatory performance monitoring.
+              </div>
+            </li>
+            <li class="penalty-tier-item">
+              <span class="tier-indicator tier-3">Tier 3</span>
+              <div>
+                <strong style="color: var(--text-main);">Third Violation:</strong> Formal referral to the Dean of the Branch resulting in academic penalties, grade deduction, or dismissal from the agency.
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Documentation Rule -->
+        <div class="policy-box">
+          <h4>
+            <svg width="22" height="22" fill="none" stroke="#818cf8" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            Mandatory Escalation Documentation
+          </h4>
+          <p style="color: var(--text-muted); font-size: 0.925rem; margin-bottom: 1.25rem;">
+            To guarantee complete procedural fairness, auditing compliance, and institutional clarity, the following documentation rule is strictly enforced:
+          </p>
+          <div class="doc-mandate">
+            <strong>Agency Escalation Mandate:</strong><br>
+            Every single conflict, disciplinary warning, and procedure escalated beyond Level 1 must be officially logged in the agency master registry. Each entry must state the incident timestamp, all involved participants, summary of arguments, evidence reviewed, mediation notes, and the agreed resolution countersigned by the Team Lead and participating parties.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-info">
+          <h4>[visionaries] AI Automation Agency</h4>
+          <p>College Project: Capstone System Implementation &amp; Enterprise Governance</p>
+          <p>Academic Institution: <span class="footer-institution">MITAOE</span></p>
+        </div>
+
+        <div class="footer-links">
+          <a href="#about">About</a>
+          <a href="#team">Team</a>
+          <a href="#work-distribution">Work</a>
+          <a href="#raci">RACI</a>
+          <a href="#rules">Rules</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 [visionaries] &bull; Submitted in partial fulfillment of the requirements at MITAOE. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript for Responsive Navigation and Interactive Enhancements -->
+  <script>
+    // Mobile navigation toggle
+    const mobileBtn = document.getElementById('mobileMenuToggle');
+    const navMenu = document.getElementById('navMenu');
+
+    mobileBtn.addEventListener('click', () => {
+      navMenu.classList.toggle('show');
+    });
+
+    // Close menu when clicking link
+    document.querySelectorAll('#navMenu a').forEach(link => {
+      link.addEventListener('click', () => {
+        navMenu.classList.remove('show');
+      });
+    });
+
+    // Active link highlighting on scroll
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('nav a');
+
+    window.addEventListener('scroll', () => {
+      let currentSection = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 120;
+        if (window.pageYOffset >= sectionTop) {
+          currentSection = section.getAttribute('id');
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + currentSection) {
+          link.classList.add('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
