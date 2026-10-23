@@ -7,31 +7,23 @@
   <style>
     /* CSS Reset & Design Variables */
     :root {
-      --bg-primary: #0b0f19;
-      --bg-secondary: #111827;
-      --bg-card: #1e293b;
-      --bg-card-hover: #283548;
+      --bg-primary: #070a12;
+      --bg-secondary: #0d121f;
+      --bg-card: rgba(17, 24, 39, 0.7);
+      --bg-card-hover: rgba(30, 41, 59, 0.8);
       --accent: #6366f1;
-      --accent-hover: #4f46e5;
-      --accent-light: rgba(99, 102, 241, 0.15);
-      --accent-glow: rgba(99, 102, 241, 0.35);
+      --accent-glow: rgba(99, 102, 241, 0.4);
+      --accent-cyan: #38bdf8;
+      --accent-purple: #c084fc;
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
       --text-dim: #64748b;
-      --border-color: #334155;
+      --border-color: rgba(51, 65, 85, 0.6);
       --border-light: rgba(255, 255, 255, 0.08);
-      --success: #10b981;
-      --warning: #f59e0b;
-      --danger: #ef4444;
-      --info: #3b82f6;
-      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       --radius-sm: 8px;
-      --radius-md: 12px;
-      --radius-lg: 16px;
+      --radius-md: 14px;
       --radius-full: 9999px;
-      --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
-      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
-      --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.5);
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
 
     * {
@@ -52,11 +44,23 @@
       line-height: 1.6;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
+      position: relative;
     }
 
     a {
       color: inherit;
       text-decoration: none;
+    }
+
+    /* Background Interactive Canvas */
+    #bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      pointer-events: none;
     }
 
     /* Layout & Containers */
@@ -70,18 +74,19 @@
       padding: 5rem 0;
       scroll-margin-top: 5rem;
       border-bottom: 1px solid var(--border-light);
+      position: relative;
+      z-index: 1;
     }
 
-    /* Header & Navigation Bar */
+    /* Header & Navigation Bar with Live HUD Ticker */
     header {
       position: sticky;
       top: 0;
       z-index: 1000;
-      background-color: rgba(11, 15, 25, 0.92);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background-color: rgba(7, 10, 18, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border-color);
-      transition: all 0.3s ease;
     }
 
     .nav-container {
@@ -101,21 +106,51 @@
       height: 38px;
       width: auto;
       object-fit: contain;
-      display: block;
       mix-blend-mode: screen;
     }
 
     .brand-logo .agency-tag {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       text-transform: uppercase;
       letter-spacing: 1.5px;
-      color: var(--text-muted);
-      background: var(--bg-card);
+      color: var(--accent-cyan);
+      background: rgba(56, 189, 248, 0.1);
       padding: 0.2rem 0.6rem;
       border-radius: var(--radius-full);
-      border: 1px solid var(--border-color);
-      font-weight: 600;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      font-weight: 700;
       margin-left: 0.4rem;
+    }
+
+    /* HUD System Ticker */
+    .hud-ticker {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      font-family: monospace;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      background: rgba(13, 18, 31, 0.8);
+      padding: 0.35rem 0.9rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-color);
+    }
+
+    .hud-status-dot {
+      width: 7px;
+      height: 7px;
+      background-color: #10b981;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #10b981;
+      animation: pulse-green 2s infinite;
+      display: inline-block;
+      margin-right: 0.3rem;
+    }
+
+    @keyframes pulse-green {
+      0% { opacity: 0.4; }
+      50% { opacity: 1; }
+      100% { opacity: 0.4; }
     }
 
     nav ul {
@@ -127,15 +162,14 @@
 
     nav a {
       color: var(--text-muted);
-      font-size: 0.925rem;
+      font-size: 0.9rem;
       font-weight: 500;
-      transition: color 0.2s ease, transform 0.2s ease;
+      transition: color 0.2s ease;
       position: relative;
       padding: 0.4rem 0;
     }
 
-    nav a:hover,
-    nav a.active {
+    nav a:hover, nav a.active {
       color: var(--text-main);
     }
 
@@ -146,12 +180,11 @@
       left: 0;
       width: 0;
       height: 2px;
-      background-color: var(--accent);
+      background: linear-gradient(90deg, var(--accent), var(--accent-cyan));
       transition: width 0.3s ease;
     }
 
-    nav a:hover::after,
-    nav a.active::after {
+    nav a:hover::after, nav a.active::after {
       width: 100%;
     }
 
@@ -161,7 +194,6 @@
       border: none;
       color: var(--text-main);
       cursor: pointer;
-      padding: 0.5rem;
     }
 
     /* Section Headers */
@@ -172,34 +204,16 @@
 
     .section-badge {
       display: inline-block;
-      font-size: 0.8rem;
-      font-weight: 600;
+      font-size: 0.75rem;
+      font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 1.5px;
-      color: var(--accent);
-      background-color: var(--accent-light);
+      color: var(--accent-cyan);
+      background: rgba(56, 189, 248, 0.1);
       padding: 0.35rem 0.9rem;
       border-radius: var(--radius-full);
       margin-bottom: 0.75rem;
-      border: 1px solid var(--accent-glow);
-    }
-
-    /* Hero Brand & Logo Styles */
-    .hero-brand-wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 1.25rem;
-    }
-
-    .hero-logo-img {
-      max-width: 270px;
-      width: 100%;
-      height: auto;
-      object-fit: contain;
-      display: block;
-      mix-blend-mode: screen;
+      border: 1px solid rgba(56, 189, 248, 0.2);
     }
 
     .section-title {
@@ -219,36 +233,54 @@
 
     /* Hero Banner */
     .hero-banner {
-      padding: 4.5rem 0 3rem 0;
-      background: radial-gradient(circle at 50% 10%, rgba(99, 102, 241, 0.15), transparent 70%);
+      padding: 6rem 0 4rem 0;
       text-align: center;
+      position: relative;
+    }
+
+    .hero-brand-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-logo-img {
+      max-width: 280px;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      mix-blend-mode: screen;
+      filter: drop-shadow(0 0 25px rgba(99, 102, 241, 0.3));
     }
 
     .hero-title {
-      font-size: 3rem;
+      font-size: 3.5rem;
       font-weight: 800;
-      letter-spacing: -1px;
+      letter-spacing: -1.5px;
       margin-bottom: 1.25rem;
-      line-height: 1.2;
+      line-height: 1.15;
     }
 
     .hero-title .highlight {
-      background: linear-gradient(135deg, #818cf8 0%, #c084fc 100%);
+      background: linear-gradient(135deg, #818cf8 0%, #c084fc 50%, #38bdf8 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      display: inline-block;
     }
 
     .hero-desc {
       font-size: 1.15rem;
       color: var(--text-muted);
       max-width: 720px;
-      margin: 0 auto 2rem auto;
+      margin: 0 auto 2.5rem auto;
     }
 
     .hero-stats {
       display: flex;
       justify-content: center;
-      gap: 3rem;
+      gap: 3.5rem;
       margin-top: 2rem;
       flex-wrap: wrap;
     }
@@ -260,19 +292,23 @@
     }
 
     .stat-value {
-      font-size: 1.75rem;
-      font-weight: 700;
+      font-size: 2rem;
+      font-weight: 800;
       color: var(--text-main);
+      background: linear-gradient(180deg, #ffffff 0%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .stat-label {
-      font-size: 0.85rem;
-      color: var(--text-muted);
+      font-size: 0.8rem;
+      color: var(--text-dim);
       text-transform: uppercase;
-      letter-spacing: 0.8px;
+      letter-spacing: 1px;
+      font-weight: 600;
     }
 
-    /* 1. ABOUT SECTION */
+    /* ABOUT SECTION */
     .mission-vision-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -285,47 +321,31 @@
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
       padding: 2rem;
-      position: relative;
-      transition: transform 0.2s ease, border-color 0.2s ease;
+      backdrop-filter: blur(12px);
+      transition: transform 0.3s ease, border-color 0.3s ease;
     }
 
     .mv-card:hover {
-      transform: translateY(-3px);
+      transform: translateY(-4px);
       border-color: var(--accent);
     }
 
     .mv-icon {
       width: 44px;
       height: 44px;
-      background: var(--accent-light);
+      background: rgba(99, 102, 241, 0.15);
       color: var(--accent);
       border-radius: var(--radius-sm);
       display: flex;
       align-items: center;
       justify-content: center;
       margin-bottom: 1.25rem;
-    }
-
-    .mv-card h3 {
-      font-size: 1.35rem;
-      margin-bottom: 0.75rem;
-      color: var(--text-main);
-    }
-
-    .mv-card p {
-      color: var(--text-muted);
-      font-size: 0.975rem;
-      line-height: 1.65;
+      border: 1px solid rgba(99, 102, 241, 0.3);
     }
 
     .services-title-wrapper {
       text-align: center;
-      margin-bottom: 2rem;
-    }
-
-    .services-title-wrapper h3 {
-      font-size: 1.6rem;
-      font-weight: 700;
+      margin-bottom: 2.5rem;
     }
 
     .services-grid {
@@ -342,14 +362,14 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transition: all 0.25s ease;
-      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(12px);
+      transition: all 0.3s ease;
     }
 
     .service-card:hover {
-      transform: translateY(-4px);
-      border-color: var(--accent);
-      box-shadow: var(--shadow-md);
+      transform: translateY(-5px);
+      border-color: var(--accent-cyan);
+      box-shadow: 0 10px 30px -10px rgba(56, 189, 248, 0.2);
     }
 
     .service-header {
@@ -362,32 +382,25 @@
     .service-icon-box {
       width: 42px;
       height: 42px;
-      background: rgba(99, 102, 241, 0.12);
-      border: 1px solid rgba(99, 102, 241, 0.3);
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
       border-radius: var(--radius-sm);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #a5b4fc;
+      color: var(--accent-cyan);
       flex-shrink: 0;
-    }
-
-    .service-header h4 {
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: var(--text-main);
     }
 
     .service-desc {
       color: var(--text-muted);
       font-size: 0.95rem;
       margin-bottom: 1.25rem;
-      line-height: 1.55;
     }
 
     .use-case-box {
-      background-color: rgba(15, 23, 42, 0.6);
-      border-left: 3px solid var(--accent);
+      background: rgba(13, 18, 31, 0.8);
+      border-left: 3px solid var(--accent-cyan);
       padding: 0.85rem 1rem;
       border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
       font-size: 0.875rem;
@@ -396,41 +409,63 @@
     .use-case-box .uc-label {
       font-weight: 700;
       text-transform: uppercase;
-      font-size: 0.725rem;
+      font-size: 0.7rem;
       letter-spacing: 0.8px;
-      color: #818cf8;
+      color: var(--accent-cyan);
       display: block;
-      margin-bottom: 0.35rem;
+      margin-bottom: 0.3rem;
     }
 
-    .use-case-box p {
-      color: #cbd5e1;
-      margin: 0;
-      line-height: 1.45;
-    }
-
-    /* 2. MEET THE TEAM SECTION WITH MOBILE-FRIENDLY BACKGROUND LAYERS & HOVER OVERLAYS */
+    /* MEET THE TEAM WITH 3D TILT PARALLAX & BIO OVERLAY */
     .team-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 1.5rem;
+      perspective: 1000px;
     }
 
     .team-card {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
-      padding: 2rem 1.5rem;
+      padding: 2.25rem 1.5rem;
       text-align: center;
       position: relative;
       overflow: hidden;
-      transition: all 0.25s ease;
       display: flex;
       flex-direction: column;
       align-items: center;
+      backdrop-filter: blur(12px);
+      transform-style: preserve-3d;
+      transition: transform 0.15s ease-out, border-color 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
     }
 
-    /* Absolute HTML Background Image Layer */
+    .team-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 15px 35px -10px rgba(99, 102, 241, 0.35);
+    }
+
+    /* Dynamic Radial Light Tracking */
+    .team-card::after {
+      content: '';
+      position: absolute;
+      top: var(--mouse-y, 50%);
+      left: var(--mouse-x, 50%);
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, transparent 70%);
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      border-radius: 50%;
+    }
+
+    .team-card:hover::after {
+      opacity: 1;
+    }
+
     .card-bg-img {
       position: absolute;
       top: 0;
@@ -439,31 +474,19 @@
       height: 100%;
       object-fit: cover;
       filter: blur(4px);
-      opacity: 0.35;
+      opacity: 0.3;
       z-index: 0;
       pointer-events: none;
-      transition: transform 0.3s ease;
+      transition: transform 0.4s ease;
     }
 
     .team-card:hover .card-bg-img {
-      transform: scale(1.08);
+      transform: scale(1.1);
     }
 
-    .team-card:hover {
-      transform: translateY(-4px);
-      border-color: var(--accent);
-      box-shadow: var(--shadow-md);
-    }
-
-    .team-card.is-lead {
-      border-color: rgba(99, 102, 241, 0.5);
-      background: linear-gradient(180deg, rgba(99, 102, 241, 0.12) 0%, rgba(30, 41, 59, 0.9) 40%);
-    }
-
-    /* Circular Profile Photo Badge Styling */
     .team-avatar {
-      width: 72px;
-      height: 72px;
+      width: 76px;
+      height: 76px;
       border-radius: var(--radius-full);
       background: var(--bg-secondary);
       border: 2px solid var(--border-color);
@@ -474,39 +497,42 @@
       margin-bottom: 1.25rem;
       position: relative;
       z-index: 2;
+      transition: transform 0.3s ease;
     }
 
     .team-avatar img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      display: block;
     }
 
-    .team-card.is-lead .team-avatar {
-      border-color: var(--accent);
-      box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
+    .team-card:hover .team-avatar {
+      transform: translateZ(20px) scale(1.05);
+      border-color: var(--accent-cyan);
     }
 
     .team-name, .lead-badge, .team-role, .team-skills-box {
       position: relative;
       z-index: 2;
+      transition: transform 0.3s ease;
+    }
+
+    .team-card:hover .team-name {
+      transform: translateZ(15px);
     }
 
     .team-name {
       font-size: 1.25rem;
       font-weight: 700;
       margin-bottom: 0.35rem;
-      color: var(--text-main);
     }
 
     .lead-badge {
-      display: inline-block;
-      font-size: 0.7rem;
-      font-weight: 700;
+      font-size: 0.68rem;
+      font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.8px;
-      background: #4f46e5;
+      letter-spacing: 1px;
+      background: linear-gradient(135deg, #4f46e5, #818cf8);
       color: #ffffff;
       padding: 0.2rem 0.65rem;
       border-radius: var(--radius-full);
@@ -514,9 +540,9 @@
     }
 
     .team-role {
-      font-size: 0.925rem;
+      font-size: 0.9rem;
       font-weight: 600;
-      color: #93c5fd;
+      color: var(--accent-cyan);
       margin-bottom: 0.85rem;
     }
 
@@ -528,7 +554,7 @@
     }
 
     .team-skills-label {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       text-transform: uppercase;
       letter-spacing: 1px;
       color: var(--text-dim);
@@ -538,21 +564,21 @@
     }
 
     .team-skills-value {
-      font-size: 0.9rem;
+      font-size: 0.875rem;
       color: var(--text-muted);
       font-weight: 500;
     }
 
-    /* Resume Bio Hover Overlay */
+    /* Resume Bio Hover Overlay with Glassmorphism */
     .team-bio-overlay {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(11, 15, 25, 0.95);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      background: rgba(7, 10, 18, 0.94);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       padding: 1.5rem;
       display: flex;
       flex-direction: column;
@@ -561,14 +587,15 @@
       text-align: center;
       opacity: 0;
       visibility: hidden;
-      transition: opacity 0.3s ease, visibility 0.3s ease;
+      transition: opacity 0.35s ease, visibility 0.35s ease, transform 0.35s ease;
       z-index: 10;
-      box-sizing: border-box;
+      transform: translateY(10px);
     }
 
     .team-card:hover .team-bio-overlay {
       opacity: 1;
       visibility: visible;
+      transform: translateY(0);
     }
 
     .team-bio-overlay h4 {
@@ -581,33 +608,17 @@
     .team-bio-overlay p {
       font-size: 0.825rem;
       color: var(--text-muted);
-      line-height: 1.5;
-      margin: 0;
+      line-height: 1.55;
     }
 
-    .team-lead-callout {
-      margin-top: 2rem;
-      padding: 1rem 1.5rem;
-      background: var(--accent-light);
-      border: 1px solid var(--accent-glow);
-      border-radius: var(--radius-md);
-      text-align: center;
-      font-weight: 600;
-      color: #e0e7ff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.75rem;
-    }
-
-    /* 3. WORK DISTRIBUTION TABLE */
+    /* WORK DISTRIBUTION TABLE */
     .table-container {
       width: 100%;
       overflow-x: auto;
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
-      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(12px);
     }
 
     table {
@@ -619,7 +630,7 @@
     }
 
     th {
-      background: #172033;
+      background: rgba(13, 18, 31, 0.9);
       color: #cbd5e1;
       padding: 1rem 1.25rem;
       font-weight: 700;
@@ -633,7 +644,6 @@
       padding: 1.1rem 1.25rem;
       border-bottom: 1px solid var(--border-light);
       color: var(--text-muted);
-      vertical-align: middle;
     }
 
     tr:last-child td {
@@ -644,33 +654,10 @@
       background-color: rgba(255, 255, 255, 0.02);
     }
 
-    .td-member {
-      font-weight: 700;
-      color: var(--text-main);
-      white-space: nowrap;
-    }
-
-    .td-role {
-      font-weight: 600;
-      color: #93c5fd;
-      white-space: nowrap;
-    }
-
-    .td-task {
-      color: #e2e8f0;
-      line-height: 1.45;
-    }
-
-    .td-deliverable {
-      color: #cbd5e1;
-    }
-
-    .td-deadline {
-      font-family: monospace;
-      font-size: 0.875rem;
-      color: #cbd5e1;
-      white-space: nowrap;
-    }
+    .td-member { font-weight: 700; color: var(--text-main); }
+    .td-role { font-weight: 600; color: var(--accent-cyan); }
+    .td-task { color: #e2e8f0; }
+    .td-deadline { font-family: monospace; color: #cbd5e1; }
 
     .badge-status {
       display: inline-block;
@@ -679,8 +666,6 @@
       font-size: 0.75rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      white-space: nowrap;
     }
 
     .status-completed {
@@ -689,27 +674,9 @@
       border: 1px solid rgba(16, 185, 129, 0.3);
     }
 
-    .status-in-progress {
-      background-color: rgba(59, 130, 246, 0.15);
-      color: #60a5fa;
-      border: 1px solid rgba(59, 130, 246, 0.3);
-    }
-
-    .status-pending {
-      background-color: rgba(245, 158, 11, 0.15);
-      color: #fbbf24;
-      border: 1px solid rgba(245, 158, 11, 0.3);
-    }
-
-    /* 4. RESPONSIBILITY MATRIX (RACI) */
-    .raci-table th.col-member {
-      text-align: center;
-      width: 13%;
-    }
-
-    .raci-table td.cell-raci {
-      text-align: center;
-    }
+    /* RACI MATRIX */
+    .raci-table th.col-member { text-align: center; width: 13%; }
+    .raci-table td.cell-raci { text-align: center; }
 
     .raci-badge {
       display: inline-flex;
@@ -722,30 +689,10 @@
       font-size: 0.95rem;
     }
 
-    .raci-R {
-      background-color: rgba(59, 130, 246, 0.2);
-      color: #60a5fa;
-      border: 1px solid rgba(59, 130, 246, 0.4);
-    }
-
-    .raci-A {
-      background-color: rgba(16, 185, 129, 0.25);
-      color: #34d399;
-      border: 2px solid #10b981;
-      box-shadow: 0 0 10px rgba(16, 185, 129, 0.35);
-    }
-
-    .raci-C {
-      background-color: rgba(168, 85, 247, 0.2);
-      color: #c084fc;
-      border: 1px solid rgba(168, 85, 247, 0.4);
-    }
-
-    .raci-I {
-      background-color: rgba(148, 163, 184, 0.12);
-      color: #94a3b8;
-      border: 1px solid rgba(148, 163, 184, 0.25);
-    }
+    .raci-R { background: rgba(59, 130, 246, 0.2); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.4); }
+    .raci-A { background: rgba(16, 185, 129, 0.25); color: #34d399; border: 2px solid #10b981; box-shadow: 0 0 10px rgba(16, 185, 129, 0.35); }
+    .raci-C { background: rgba(168, 85, 247, 0.2); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.4); }
+    .raci-I { background: rgba(148, 163, 184, 0.12); color: #94a3b8; border: 1px solid rgba(148, 163, 184, 0.25); }
 
     .raci-legend-card {
       margin-top: 2rem;
@@ -753,16 +700,7 @@
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
       padding: 1.5rem 2rem;
-    }
-
-    .legend-title {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--text-main);
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      backdrop-filter: blur(12px);
     }
 
     .raci-legend-grid {
@@ -771,26 +709,7 @@
       gap: 1.25rem;
     }
 
-    .legend-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.85rem;
-    }
-
-    .legend-desc h5 {
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: var(--text-main);
-      margin-bottom: 0.2rem;
-    }
-
-    .legend-desc p {
-      font-size: 0.825rem;
-      color: var(--text-muted);
-      line-height: 1.4;
-    }
-
-    /* 5. RULES & CONFLICT RESOLUTION */
+    /* RULES & GOVERNANCE */
     .rules-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
@@ -803,8 +722,8 @@
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
       padding: 1.5rem;
-      position: relative;
-      transition: transform 0.2s ease, border-color 0.2s ease;
+      backdrop-filter: blur(12px);
+      transition: transform 0.3s ease, border-color 0.3s ease;
     }
 
     .rule-card:hover {
@@ -815,24 +734,11 @@
     .rule-number {
       font-size: 0.75rem;
       font-weight: 700;
-      color: var(--accent);
+      color: var(--accent-cyan);
       text-transform: uppercase;
       letter-spacing: 1px;
       margin-bottom: 0.4rem;
       display: block;
-    }
-
-    .rule-card h4 {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--text-main);
-      margin-bottom: 0.6rem;
-    }
-
-    .rule-card p {
-      color: var(--text-muted);
-      font-size: 0.925rem;
-      line-height: 1.55;
     }
 
     .process-container {
@@ -841,30 +747,13 @@
       border-radius: var(--radius-md);
       padding: 2.5rem 2rem;
       margin-bottom: 3rem;
-    }
-
-    .process-heading {
-      text-align: center;
-      margin-bottom: 2.5rem;
-    }
-
-    .process-heading h3 {
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: var(--text-main);
-      margin-bottom: 0.5rem;
-    }
-
-    .process-heading p {
-      color: var(--text-muted);
-      font-size: 0.95rem;
+      backdrop-filter: blur(12px);
     }
 
     .conflict-levels {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 1.5rem;
-      position: relative;
     }
 
     .level-step {
@@ -872,10 +761,7 @@
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
       padding: 1.75rem 1.5rem;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      transition: all 0.25s ease;
+      transition: all 0.3s ease;
     }
 
     .level-step:hover {
@@ -887,34 +773,14 @@
       width: 36px;
       height: 36px;
       border-radius: var(--radius-full);
-      background: var(--accent-light);
+      background: rgba(99, 102, 241, 0.2);
       border: 1px solid var(--accent);
       color: var(--text-main);
       font-weight: 800;
-      font-size: 1rem;
       display: flex;
       align-items: center;
       justify-content: center;
       margin-bottom: 1rem;
-    }
-
-    .level-step.final-level .level-badge-num {
-      background: rgba(239, 68, 68, 0.2);
-      border-color: var(--danger);
-      color: #f87171;
-    }
-
-    .level-step h4 {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--text-main);
-      margin-bottom: 0.6rem;
-    }
-
-    .level-step p {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      line-height: 1.55;
     }
 
     .sub-policy-grid {
@@ -928,78 +794,18 @@
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
       padding: 2rem;
-    }
-
-    .policy-box h4 {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--text-main);
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-    }
-
-    .penalty-tiers {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .penalty-tier-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.85rem;
-      font-size: 0.925rem;
-      color: var(--text-muted);
-    }
-
-    .tier-indicator {
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      padding: 0.2rem 0.55rem;
-      border-radius: var(--radius-sm);
-      white-space: nowrap;
-      margin-top: 0.1rem;
-    }
-
-    .tier-1 {
-      background: rgba(245, 158, 11, 0.2);
-      color: #fbbf24;
-      border: 1px solid rgba(245, 158, 11, 0.4);
-    }
-
-    .tier-2 {
-      background: rgba(249, 115, 22, 0.2);
-      color: #fb923c;
-      border: 1px solid rgba(249, 115, 22, 0.4);
-    }
-
-    .tier-3 {
-      background: rgba(239, 68, 68, 0.2);
-      color: #f87171;
-      border: 1px solid rgba(239, 68, 68, 0.4);
-    }
-
-    .doc-mandate {
-      background: rgba(99, 102, 241, 0.08);
-      border-left: 3px solid var(--accent);
-      padding: 1.2rem;
-      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-      color: #cbd5e1;
-      font-size: 0.925rem;
-      line-height: 1.6;
+      backdrop-filter: blur(12px);
     }
 
     /* FOOTER */
     footer {
-      background-color: #080c14;
+      background-color: #04060b;
       border-top: 1px solid var(--border-color);
       padding: 3.5rem 0 2.5rem 0;
       color: var(--text-muted);
-      font-size: 0.925rem;
+      font-size: 0.9rem;
+      position: relative;
+      z-index: 1;
     }
 
     .footer-content {
@@ -1013,44 +819,10 @@
       border-bottom: 1px solid var(--border-light);
     }
 
-    .footer-info h4 {
-      color: var(--text-main);
-      font-size: 1.15rem;
-      font-weight: 700;
-      margin-bottom: 0.35rem;
-    }
-
-    .footer-institution {
-      color: #818cf8;
-      font-weight: 600;
-    }
-
-    .footer-links {
-      display: flex;
-      gap: 1.5rem;
-    }
-
-    .footer-links a:hover {
-      color: var(--text-main);
-    }
-
-    .footer-bottom {
-      text-align: center;
-      font-size: 0.825rem;
-      color: var(--text-dim);
-    }
-
-    /* Responsive Media Queries */
+    /* Responsive Queries */
     @media (max-width: 900px) {
-      .hero-title {
-        font-size: 2.25rem;
-      }
-      .services-grid {
-        grid-template-columns: 1fr;
-      }
-      .raci-table th, .raci-table td {
-        padding: 0.75rem 0.5rem;
-      }
+      .hero-title { font-size: 2.5rem; }
+      .hud-ticker { display: none; }
     }
 
     @media (max-width: 768px) {
@@ -1064,42 +836,31 @@
         flex-direction: column;
         padding: 1.5rem;
         border-bottom: 1px solid var(--border-color);
-        box-shadow: var(--shadow-lg);
-        gap: 1.25rem;
       }
-
-      nav ul.show {
-        display: flex;
-      }
-
-      .mobile-menu-btn {
-        display: block;
-      }
-
-      .hero-stats {
-        gap: 1.5rem;
-      }
-
-      .conflict-levels {
-        grid-template-columns: 1fr;
-      }
-
-      .footer-content {
-        flex-direction: column;
-        text-align: center;
-      }
+      nav ul.show { display: flex; }
+      .mobile-menu-btn { display: block; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Navigation Bar -->
+  <!-- Interactive Background Canvas -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- Navigation Bar with HUD Ticker -->
   <header>
     <div class="container nav-container">
       <a href="#" class="brand-logo">
         <img src="logo.png" alt="Company Logo">
         <span class="agency-tag">AI Automation</span>
       </a>
+
+      <!-- Dynamic System Ticker inspired by Carter Ogunsola -->
+      <div class="hud-ticker">
+        <span><span class="hud-status-dot"></span>SYS::ONLINE</span>
+        <span id="hud-clock">00:00:00 UTC</span>
+        <span id="hud-fps">FPS::60</span>
+      </div>
 
       <button class="mobile-menu-btn" id="mobileMenuToggle" aria-label="Toggle Navigation">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1168,9 +929,7 @@
             <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
           </div>
           <h3>Short Introduction</h3>
-          <p>
-            <strong>[visionaries]</strong> is a dynamic college-developed AI automation agency. We bridge the gap between complex artificial intelligence research and practical daily business workflows, empowering organizations to eliminate manual drudgery and scale effortlessly.
-          </p>
+          <p><strong>[visionaries]</strong> is a dynamic college-developed AI automation agency. We bridge the gap between complex artificial intelligence research and practical daily business workflows, empowering organizations to eliminate manual drudgery and scale effortlessly.</p>
         </div>
 
         <div class="mv-card">
@@ -1178,9 +937,7 @@
             <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/></svg>
           </div>
           <h3>Our Mission</h3>
-          <p>
-            To democratize cutting-edge artificial intelligence for growing enterprises by delivering intuitive, reliable, and cost-effective automation systems that maximize operational output and reduce operating expenses.
-          </p>
+          <p>To democratize cutting-edge artificial intelligence for growing enterprises by delivering intuitive, reliable, and cost-effective automation systems that maximize operational output and reduce operating expenses.</p>
         </div>
 
         <div class="mv-card">
@@ -1188,9 +945,7 @@
             <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
           </div>
           <h3>Our Vision</h3>
-          <p>
-            To stand as an exemplary academic-born agency pioneering ethical AI integration, empowering human workforces through autonomous systems, and setting benchmark standards in student enterprise excellence.
-          </p>
+          <p>To stand as an exemplary academic-born agency pioneering ethical AI integration, empowering human workforces through autonomous systems, and setting benchmark standards in student enterprise excellence.</p>
         </div>
       </div>
 
@@ -1207,14 +962,11 @@
               </div>
               <h4>1. Chatbots</h4>
             </div>
-            <p class="service-desc">
-              We design and deploy 24/7 intelligent conversational agents that provide immediate, context-aware answers to user inquiries across web and mobile platforms.<br>
-              These bots train on company documentation to resolve customer issues accurately and route high-priority tickets to human staff.
-            </p>
+            <p class="service-desc">We design and deploy 24/7 intelligent conversational agents that provide immediate, context-aware answers to user inquiries across web and mobile platforms.</p>
           </div>
           <div class="use-case-box">
             <span class="uc-label">Real-World Use Case</span>
-            <p>An e-commerce store integrates our AI chatbot to resolve 75% of shipping status and refund queries automatically, cutting customer support wait times from 3 hours to instant resolution.</p>
+            <p>An e-commerce store integrates our AI chatbot to resolve 75% of shipping status and refund queries automatically, cutting customer support wait times to instant resolution.</p>
           </div>
         </div>
 
@@ -1226,10 +978,7 @@
               </div>
               <h4>2. Workflow Automation</h4>
             </div>
-            <p class="service-desc">
-              We link fragmented SaaS software and internal databases into interconnected pipelines that eliminate repetitive copy-pasting and manual data transfers.<br>
-              Every stage of your business operations triggers the next automatically, ensuring error-free handoffs and continuous team alignment.
-            </p>
+            <p class="service-desc">We link fragmented SaaS software and internal databases into interconnected pipelines that eliminate repetitive copy-pasting and manual data transfers.</p>
           </div>
           <div class="use-case-box">
             <span class="uc-label">Real-World Use Case</span>
@@ -1245,10 +994,7 @@
               </div>
               <h4>3. Lead/Email Automation</h4>
             </div>
-            <p class="service-desc">
-              We implement intelligent email engines that filter inbound leads, evaluate prospect buying signals, and dispatch tailored multi-step follow-up sequences.<br>
-              The system nurtures prospects on autopilot and directly schedules qualified discovery calls into sales representatives' calendars.
-            </p>
+            <p class="service-desc">We implement intelligent email engines that filter inbound leads, evaluate prospect buying signals, and dispatch tailored multi-step follow-up sequences.</p>
           </div>
           <div class="use-case-box">
             <span class="uc-label">Real-World Use Case</span>
@@ -1264,14 +1010,11 @@
               </div>
               <h4>4. Document Processing</h4>
             </div>
-            <p class="service-desc">
-              We utilize optical character recognition and large language models to extract key metadata, summarize long records, and classify incoming files automatically.<br>
-              This technology converts piles of unstructured PDF forms, receipts, and legal agreements into structured, queryable business databases.
-            </p>
+            <p class="service-desc">We utilize optical character recognition and large language models to extract key metadata, summarize long records, and classify incoming files automatically.</p>
           </div>
           <div class="use-case-box">
             <span class="uc-label">Real-World Use Case</span>
-            <p>An accounting firm processes hundreds of monthly vendor invoices by automatically extracting line items, dates, and tax totals directly into accounting software without human data entry.</p>
+            <p>An accounting firm processes hundreds of monthly vendor invoices by automatically extracting line items, dates, and tax totals directly into accounting software.</p>
           </div>
         </div>
 
@@ -1283,21 +1026,18 @@
               </div>
               <h4>5. AI Voice Agents</h4>
             </div>
-            <p class="service-desc">
-              We develop human-like conversational voice bots capable of conducting inbound and outbound telephone calls with natural cadence and tone variation.<br>
-              These agents clarify patient or customer intents, execute appointment bookings, and transcribe conversation highlights into internal management software.
-            </p>
+            <p class="service-desc">We develop human-like conversational voice bots capable of conducting inbound and outbound telephone calls with natural cadence and tone variation.</p>
           </div>
           <div class="use-case-box">
             <span class="uc-label">Real-World Use Case</span>
-            <p>A regional healthcare clinic deploys our voice assistant to manage incoming patient appointment bookings and send telephone reminders, reducing no-show rates by 42%.</p>
+            <p>A regional healthcare clinic deploys our voice assistant to manage incoming patient appointment bookings, reducing no-show rates by 42%.</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SECTION 2: MEET THE TEAM -->
+  <!-- SECTION 2: MEET THE TEAM (Interactive 3D Cards) -->
   <section id="team">
     <div class="container">
       <div class="section-header">
@@ -1398,11 +1138,6 @@
           </div>
         </div>
       </div>
-
-      <div class="team-lead-callout">
-        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        <span><strong>Executive Leadership:</strong> Team Lead: Tanmay Mohod oversees project deliverables, coordination, and agency standards.</span>
-      </div>
     </div>
   </section>
 
@@ -1499,100 +1234,60 @@
           <tbody>
             <tr>
               <td class="td-member">Project Planning &amp; Scope</td>
-              <td class="cell-raci"><span class="raci-badge raci-A" title="Accountable">A</span></td>
-              <td class="cell-raci"><span class="raci-badge raci-C" title="Consulted">C</span></td>
-              <td class="cell-raci"><span class="raci-badge raci-C" title="Consulted">C</span></td>
-              <td class="cell-raci"><span class="raci-badge raci-C" title="Consulted">C</span></td>
-              <td class="cell-raci"><span class="raci-badge raci-R" title="Responsible">R</span></td>
-              <td class="cell-raci"><span class="raci-badge raci-I" title="Informed">I</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-A">A</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-C">C</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-C">C</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-C">C</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-R">R</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-I">I</span></td>
             </tr>
             <tr>
               <td class="td-member">Design &amp; Prototyping</td>
-              <td class="cell-raci"><span class="raci-badge raci-C" title="Consulted">C</span></td>
-              <td class="cell-raci"><span class="raci-badge raci-A" title="Accountable">A</span></td>
-              <td class="cell-raci"><span class="raci-badge raci-R" title="Responsible">R</span></td>
-              <td class="cell-raci"><span class="raci-badge raci-C" title="Consulted">C</span></td>
-              <td class="cell-raci"><span class="raci-badge raci-I" title="Informed">I</span></td>
-              <td class="cell-raci"><span class="raci-badge raci-I" title="Informed">I</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-C">C</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-A">A</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-R">R</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-C">C</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-I">I</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-I">I</span></td>
             </tr>
             <tr>
               <td class="td-member">Development &amp; Coding</td>
-              <td class="cell-raci"><span class="raci-badge raci-I" title="Informed">I</span></td>
-              <td class="cell-raci"><span class="raci-badge raci-C" title="Consulted">C</span></td>
-              <td class="cell-raci"><span class="raci-badge raci-A" title="Accountable">A</span></td>
-              <td class="cell-raci"><span class="raci-badge raci-R" title="Responsible">R</span></td>
-              <td class="cell-raci"><span class="raci-badge raci-I" title="Informed">I</span></td>
-              <td class="cell-raci"><span class="raci-badge raci-I" title="Informed">I</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-I">I</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-C">C</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-A">A</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-R">R</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-I">I</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-I">I</span></td>
             </tr>
             <tr>
               <td class="td-member">Research &amp; Analysis</td>
-              <td class="cell-raci"><span class="raci-badge raci-C" title="Consulted">C</span></td>
-              <td class="cell-raci"><span class="raci-badge raci-C" title="Consulted">C</span></td>
-              <td class="cell-raci"><span class="raci-badge raci-R" title="Responsible">R</span></td>
-              <td class="cell-raci"><span class="raci-badge raci-A" title="Accountable">A</span></td>
-              <td class="cell-raci"><span class="raci-badge raci-I" title="Informed">I</span></td>
-              <td class="cell-raci"><span class="raci-badge raci-I" title="Informed">I</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-C">C</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-C">C</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-R">R</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-A">A</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-I">I</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-I">I</span></td>
             </tr>
             <tr>
               <td class="td-member">Schedule &amp; Time Tracking</td>
-              <td class="cell-raci"><span class="raci-badge raci-C" title="Consulted">C</span></td>
-              <td class="cell-raci"><span class="raci-badge raci-I" title="Informed">I</span></td>
-              <td class="cell-raci"><span class="raci-badge raci-I" title="Informed">I</span></td>
-              <td class="cell-raci"><span class="raci-badge raci-I" title="Informed">I</span></td>
-              <td class="cell-raci"><span class="raci-badge raci-A" title="Accountable">A</span></td>
-              <td class="cell-raci"><span class="raci-badge raci-I" title="Informed">I</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-C">C</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-I">I</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-I">I</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-I">I</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-A">A</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-I">I</span></td>
             </tr>
             <tr>
               <td class="td-member">Conflict Resolution</td>
-              <td class="cell-raci"><span class="raci-badge raci-R" title="Responsible">R</span></td>
-              <td class="cell-raci"><span class="raci-badge raci-C" title="Consulted">C</span></td>
-              <td class="cell-raci"><span class="raci-badge raci-C" title="Consulted">C</span></td>
-              <td class="cell-raci"><span class="raci-badge raci-C" title="Consulted">C</span></td>
-              <td class="cell-raci"><span class="raci-badge raci-C" title="Consulted">C</span></td>
-              <td class="cell-raci"><span class="raci-badge raci-A" title="Accountable">A</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-R">R</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-C">C</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-C">C</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-C">C</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-C">C</span></td>
+              <td class="cell-raci"><span class="raci-badge raci-A">A</span></td>
             </tr>
           </tbody>
         </table>
-      </div>
-
-      <div class="raci-legend-card">
-        <div class="legend-title">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-          <span>RACI Definition &amp; Governance Legend</span>
-        </div>
-        <div class="raci-legend-grid">
-          <div class="legend-item">
-            <span class="raci-badge raci-R">R</span>
-            <div class="legend-desc">
-              <h5>Responsible</h5>
-              <p>The role tasked with completing the hands-on execution and operational deliverables of the activity.</p>
-            </div>
-          </div>
-
-          <div class="legend-item">
-            <span class="raci-badge raci-A">A</span>
-            <div class="legend-desc">
-              <h5>Accountable (Single Owner)</h5>
-              <p>The sole decision-maker with final ownership. Exactly one person is accountable per process row.</p>
-            </div>
-          </div>
-
-          <div class="legend-item">
-            <span class="raci-badge raci-C">C</span>
-            <div class="legend-desc">
-              <h5>Consulted</h5>
-              <p>Subject experts providing two-way insights, guidance, and technical validation prior to final execution.</p>
-            </div>
-          </div>
-
-          <div class="legend-item">
-            <span class="raci-badge raci-I">I</span>
-            <div class="legend-desc">
-              <h5>Informed</h5>
-              <p>Individuals kept updated on milestones, decisions, and overall progress via periodic reports.</p>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </section>
@@ -1657,7 +1352,7 @@
       </div>
 
       <div class="process-container">
-        <div class="process-heading">
+        <div class="process-heading" style="text-align: center; margin-bottom: 2rem;">
           <h3>4-Level Conflict Resolution Process</h3>
           <p>Structured, progressive resolution framework designed to resolve friction impartially, quickly, and professionally.</p>
         </div>
@@ -1666,71 +1361,25 @@
           <div class="level-step">
             <div class="level-badge-num">1</div>
             <h4>Level 1: Direct Discussion</h4>
-            <p>Disputing members must hold a private, professional discussion directly within 48 hours to air concerns, clarify misunderstandings, and reach mutual agreement.</p>
+            <p>Disputing members must hold a private, professional discussion directly within 48 hours to air concerns and reach mutual agreement.</p>
           </div>
 
           <div class="level-step">
             <div class="level-badge-num">2</div>
             <h4>Level 2: Team Lead Mediation</h4>
-            <p>If direct talks fail within 48 hours, Team Lead Tanmay Mohod convenes a formal mediation session, assesses both sides, and officially records the meeting notes and action plan.</p>
+            <p>If direct talks fail within 48 hours, Team Lead Tanmay Mohod convenes a formal mediation session and records the action plan.</p>
           </div>
 
           <div class="level-step">
             <div class="level-badge-num">3</div>
             <h4>Level 3: All 5 Members Vote</h4>
-            <p>If informal mediation cannot achieve compromise, the issue is brought before the full team. All 5 members cast an equal vote, and the majority decision becomes binding.</p>
+            <p>If informal mediation cannot achieve compromise, all 5 members cast an equal vote, and the majority decision becomes binding.</p>
           </div>
 
-          <div class="level-step final-level">
-            <div class="level-badge-num">4</div>
+          <div class="level-step" style="border-color: rgba(239, 68, 68, 0.4);">
+            <div class="level-badge-num" style="background: rgba(239, 68, 68, 0.2); border-color: #ef4444; color: #f87171;">4</div>
             <h4>Level 4: Dean Escalation</h4>
-            <p>As a last resort, serious disputes or deadlock situations are formally referred to the Dean of the Branch, whose executive determination is authoritative and final.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="sub-policy-grid">
-        <div class="policy-box">
-          <h4>
-            <svg width="22" height="22" fill="none" stroke="#f59e0b" stroke-width="2" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-            Warning &amp; Penalty Policy
-          </h4>
-          <p style="color: var(--text-muted); font-size: 0.925rem; margin-bottom: 1.25rem;">
-            A three-tier disciplinary framework is enforced to ensure project integrity and accountability across all members:
-          </p>
-          <ul class="penalty-tiers">
-            <li class="penalty-tier-item">
-              <span class="tier-indicator tier-1">Tier 1</span>
-              <div>
-                <strong style="color: var(--text-main);">First Violation:</strong> Formal verbal warning issued by Team Lead Tanmay Mohod with documented milestones and a 7-day correction timeline.
-              </div>
-            </li>
-            <li class="penalty-tier-item">
-              <span class="tier-indicator tier-2">Tier 2</span>
-              <div>
-                <strong style="color: var(--text-main);">Second Violation:</strong> Official written reprimand, reassignment of critical tasks, and placement on mandatory performance monitoring.
-              </div>
-            </li>
-            <li class="penalty-tier-item">
-              <span class="tier-indicator tier-3">Tier 3</span>
-              <div>
-                <strong style="color: var(--text-main);">Third Violation:</strong> Formal referral to the Dean of the Branch resulting in academic penalties, grade deduction, or dismissal from the agency.
-              </div>
-            </li>
-          </ul>
-        </div>
-
-        <div class="policy-box">
-          <h4>
-            <svg width="22" height="22" fill="none" stroke="#818cf8" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-            Mandatory Escalation Documentation
-          </h4>
-          <p style="color: var(--text-muted); font-size: 0.925rem; margin-bottom: 1.25rem;">
-            To guarantee complete procedural fairness, auditing compliance, and institutional clarity, the following documentation rule is strictly enforced:
-          </p>
-          <div class="doc-mandate">
-            <strong>Agency Escalation Mandate:</strong><br>
-            Every single conflict, disciplinary warning, and procedure escalated beyond Level 1 must be officially logged in the agency master registry. Each entry must state the incident timestamp, all involved participants, summary of arguments, evidence reviewed, mediation notes, and the agreed resolution countersigned by the Team Lead and participating parties.
+            <p>As a last resort, serious disputes are formally referred to the Dean of the Branch, whose determination is authoritative and final.</p>
           </div>
         </div>
       </div>
@@ -1741,13 +1390,13 @@
   <footer>
     <div class="container">
       <div class="footer-content">
-        <div class="footer-info">
+        <div>
           <h4>[visionaries] AI Automation Agency</h4>
-          <p>College Project: Capstone System Implementation &amp; Enterprise Governance</p>
-          <p>Academic Institution: <span class="footer-institution">MITAOE</span></p>
+          <p>College Project: System Implementation &amp; Enterprise Governance</p>
+          <p>Academic Institution: <strong style="color: var(--accent-cyan);">MITAOE</strong></p>
         </div>
 
-        <div class="footer-links">
+        <div style="display: flex; gap: 1.5rem;">
           <a href="#about">About</a>
           <a href="#team">Team</a>
           <a href="#work-distribution">Work</a>
@@ -1756,46 +1405,118 @@
         </div>
       </div>
 
-      <div class="footer-bottom">
-        <p>&copy; 2026 [visionaries] &bull; Submitted in partial fulfillment of the requirements at MITAOE. All rights reserved.</p>
+      <div style="text-align: center; font-size: 0.8rem; color: var(--text-dim);">
+        <p>&copy; 2026 [visionaries] &bull; Submitted in partial fulfillment of requirements at MITAOE. All rights reserved.</p>
       </div>
     </div>
   </footer>
 
-  <!-- JavaScript for Navigation & Interactivity -->
+  <!-- Interactive JavaScript Engine -->
   <script>
+    // 1. Interactive HUD Live Clock & FPS Tracker
+    function updateHUD() {
+      const now = new Date();
+      const utcTime = now.toUTCString().split(' ')[4] + ' UTC';
+      document.getElementById('hud-clock').innerText = utcTime;
+    }
+    setInterval(updateHUD, 1000);
+    updateHUD();
+
+    let lastTime = performance.now();
+    let frameCount = 0;
+    function calcFPS(now) {
+      frameCount++;
+      if (now - lastTime >= 1000) {
+        document.getElementById('hud-fps').innerText = `FPS::${frameCount}`;
+        frameCount = 0;
+        lastTime = now;
+      }
+      requestAnimationFrame(calcFPS);
+    }
+    requestAnimationFrame(calcFPS);
+
+    // 2. 3D Card Tilt & Light Tracking Physics
+    const cards = document.querySelectorAll('.team-card');
+    cards.forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const rotateX = ((y - centerY) / centerY) * -10;
+        const rotateY = ((x - centerX) / centerX) * 10;
+
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
+      });
+    });
+
+    // 3. Interactive Canvas Particle Background
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    const particles = [];
+    for (let i = 0; i < 45; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
+        size: Math.random() * 2 + 1
+      });
+    }
+
+    function animateBackground() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = 'rgba(99, 102, 241, 0.25)';
+      ctx.strokeStyle = 'rgba(99, 102, 241, 0.06)';
+
+      for (let i = 0; i < particles.length; i++) {
+        let p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+
+        for (let j = i + 1; j < particles.length; j++) {
+          let p2 = particles[j];
+          let dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+          if (dist < 140) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(animateBackground);
+    }
+    animateBackground();
+
+    // 4. Mobile Navigation Toggle
     const mobileBtn = document.getElementById('mobileMenuToggle');
     const navMenu = document.getElementById('navMenu');
-
-    mobileBtn.addEventListener('click', () => {
-      navMenu.classList.toggle('show');
-    });
-
-    document.querySelectorAll('#navMenu a').forEach(link => {
-      link.addEventListener('click', () => {
-        navMenu.classList.remove('show');
-      });
-    });
-
-    const sections = document.querySelectorAll('section');
-    const navLinks = document.querySelectorAll('nav a');
-
-    window.addEventListener('scroll', () => {
-      let currentSection = '';
-      sections.forEach(section => {
-        const sectionTop = section.offsetTop - 120;
-        if (window.pageYOffset >= sectionTop) {
-          currentSection = section.getAttribute('id');
-        }
-      });
-
-      navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === '#' + currentSection) {
-          link.classList.add('active');
-        }
-      });
-    });
+    mobileBtn.addEventListener('click', () => navMenu.classList.toggle('show'));
+    document.querySelectorAll('#navMenu a').forEach(l => l.addEventListener('click', () => navMenu.classList.remove('show')));
   </script>
 </body>
 </html>
