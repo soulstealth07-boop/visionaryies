@@ -102,11 +102,14 @@
       gap: 0.6rem;
     }
 
+    /* Transparent Logo Blending Fix */
     .brand-logo img {
       height: 38px;
       width: auto;
       object-fit: contain;
       mix-blend-mode: screen;
+      background: transparent;
+      filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.4));
     }
 
     .brand-logo .agency-tag {
@@ -246,13 +249,15 @@
       margin-bottom: 1.5rem;
     }
 
+    /* Transparent Logo Blending Fix for Hero Logo */
     .hero-logo-img {
       max-width: 280px;
       width: 100%;
       height: auto;
       object-fit: contain;
       mix-blend-mode: screen;
-      filter: drop-shadow(0 0 25px rgba(99, 102, 241, 0.3));
+      background: transparent;
+      filter: drop-shadow(0 0 25px rgba(99, 102, 241, 0.35));
     }
 
     .hero-title {
@@ -876,7 +881,7 @@
           <li><a href="#team">Team</a></li>
           <li><a href="#work-distribution">Work Distribution</a></li>
           <li><a href="#raci">RACI Matrix</a></li>
-          <li><a href="#rules">Rules &amp; Governance</a></li>
+          <li><a href="#rules">Rules & Governance</a></li>
         </ul>
       </nav>
     </div>
@@ -899,7 +904,7 @@
           <span class="stat-label">Core AI Services</span>
         </div>
         <div class="stat-item">
-          <span class="stat-value">5</span>
+          <span class="stat-value">6</span>
           <span class="stat-label">Project Members</span>
         </div>
         <div class="stat-item">
@@ -1058,7 +1063,7 @@
           <p class="team-role">Planner</p>
           <div class="team-skills-box">
             <span class="team-skills-label">Skills</span>
-            <span class="team-skills-value">Project Planning, Strategy &amp; Coordination</span>
+            <span class="team-skills-value">Project Planning, Strategy & Coordination</span>
           </div>
           <div class="team-bio-overlay">
             <h4>Tanmay Mohod</h4>
@@ -1076,7 +1081,7 @@
           <p class="team-role">Designer</p>
           <div class="team-skills-box">
             <span class="team-skills-label">Skills</span>
-            <span class="team-skills-value">UI/UX Design, Prototyping &amp; Wireframing</span>
+            <span class="team-skills-value">UI/UX Design, Prototyping & Wireframing</span>
           </div>
           <div class="team-bio-overlay">
             <h4>Krishna Jadhav</h4>
@@ -1094,11 +1099,11 @@
           <p class="team-role">Maker / Developer</p>
           <div class="team-skills-box">
             <span class="team-skills-label">Skills</span>
-            <span class="team-skills-value">Coding, API Integration &amp; Implementation</span>
+            <span class="team-skills-value">Coding, API Integration & Implementation</span>
           </div>
           <div class="team-bio-overlay">
             <h4>Shivam Kale</h4>
-            <p>Computer Science &amp; Data Science undergraduate at MIT AOE with strong competencies in C, C++, Python, and full-stack software development. Shivam specializes in converting agency concepts into functional code, integrating core APIs, and building reliable data pipelines for AI automation workflows.</p>
+            <p>Computer Science & Data Science undergraduate at MIT AOE with strong competencies in C, C++, Python, and full-stack software development. Shivam specializes in converting agency concepts into functional code, integrating core APIs, and building reliable data pipelines for AI automation workflows.</p>
           </div>
         </div>
 
@@ -1112,7 +1117,7 @@
           <p class="team-role">Researcher</p>
           <div class="team-skills-box">
             <span class="team-skills-label">Skills</span>
-            <span class="team-skills-value">Market Research, Analysis &amp; Testing</span>
+            <span class="team-skills-value">Market Research, Analysis & Testing</span>
           </div>
           <div class="team-bio-overlay">
             <h4>Siddesh Satkar</h4>
@@ -1130,11 +1135,29 @@
           <p class="team-role">Energizer / Time Keeper</p>
           <div class="team-skills-box">
             <span class="team-skills-label">Skills</span>
-            <span class="team-skills-value">Schedule Tracking, Facilitation &amp; Momentum</span>
+            <span class="team-skills-value">Schedule Tracking, Facilitation & Momentum</span>
           </div>
           <div class="team-bio-overlay">
             <h4>Yash Bagul</h4>
             <p>Computer Engineering student at MIT AOE combining disciplined athletic leadership with analytical problem-solving skills. Former football team captain with a strong background in competitive sports, Yash manages agency timelines, tracks milestone delivery, and maintains high team momentum.</p>
+          </div>
+        </div>
+
+        <!-- Member 6: Ankita -->
+        <div class="team-card">
+          <img src="ankita.jpeg" alt="" class="card-bg-img">
+          <div class="team-avatar">
+            <img src="ankita.jpeg" alt="Ankita">
+          </div>
+          <h3 class="team-name">Ankita</h3>
+          <p class="team-role">Energizer</p>
+          <div class="team-skills-box">
+            <span class="team-skills-label">Skills</span>
+            <span class="team-skills-value">Python, C++, Data Science & AI</span>
+          </div>
+          <div class="team-bio-overlay">
+            <h4>Ankita</h4>
+            <p>Engineering student with a passion for technology, programming, and creative learning. Currently developing skills in Python, C++, and Data Science while exploring Artificial Intelligence and practical technology applications. Interested in building innovative projects, improving problem-solving abilities, learning new technologies, and turning ideas into reality.</p>
           </div>
         </div>
       </div>
@@ -1233,7 +1256,7 @@
           </thead>
           <tbody>
             <tr>
-              <td class="td-member">Project Planning &amp; Scope</td>
+              <td class="td-member">Project Planning & Scope</td>
               <td class="cell-raci"><span class="raci-badge raci-A">A</span></td>
               <td class="cell-raci"><span class="raci-badge raci-C">C</span></td>
               <td class="cell-raci"><span class="raci-badge raci-C">C</span></td>
@@ -1242,7 +1265,7 @@
               <td class="cell-raci"><span class="raci-badge raci-I">I</span></td>
             </tr>
             <tr>
-              <td class="td-member">Design &amp; Prototyping</td>
+              <td class="td-member">Design & Prototyping</td>
               <td class="cell-raci"><span class="raci-badge raci-C">C</span></td>
               <td class="cell-raci"><span class="raci-badge raci-A">A</span></td>
               <td class="cell-raci"><span class="raci-badge raci-R">R</span></td>
@@ -1251,7 +1274,7 @@
               <td class="cell-raci"><span class="raci-badge raci-I">I</span></td>
             </tr>
             <tr>
-              <td class="td-member">Development &amp; Coding</td>
+              <td class="td-member">Development & Coding</td>
               <td class="cell-raci"><span class="raci-badge raci-I">I</span></td>
               <td class="cell-raci"><span class="raci-badge raci-C">C</span></td>
               <td class="cell-raci"><span class="raci-badge raci-A">A</span></td>
@@ -1260,7 +1283,7 @@
               <td class="cell-raci"><span class="raci-badge raci-I">I</span></td>
             </tr>
             <tr>
-              <td class="td-member">Research &amp; Analysis</td>
+              <td class="td-member">Research & Analysis</td>
               <td class="cell-raci"><span class="raci-badge raci-C">C</span></td>
               <td class="cell-raci"><span class="raci-badge raci-C">C</span></td>
               <td class="cell-raci"><span class="raci-badge raci-R">R</span></td>
@@ -1269,7 +1292,7 @@
               <td class="cell-raci"><span class="raci-badge raci-I">I</span></td>
             </tr>
             <tr>
-              <td class="td-member">Schedule &amp; Time Tracking</td>
+              <td class="td-member">Schedule & Time Tracking</td>
               <td class="cell-raci"><span class="raci-badge raci-C">C</span></td>
               <td class="cell-raci"><span class="raci-badge raci-I">I</span></td>
               <td class="cell-raci"><span class="raci-badge raci-I">I</span></td>
@@ -1297,7 +1320,7 @@
     <div class="container">
       <div class="section-header">
         <span class="section-badge">Section 5</span>
-        <h2 class="section-title">RULES, REGULATIONS &amp; CONFLICT RESOLUTION</h2>
+        <h2 class="section-title">RULES, REGULATIONS & CONFLICT RESOLUTION</h2>
         <p class="section-subtitle">Code of professional conduct, conflict mediation protocol, and escalation governance for [visionaries].</p>
       </div>
 
@@ -1372,8 +1395,8 @@
 
           <div class="level-step">
             <div class="level-badge-num">3</div>
-            <h4>Level 3: All 5 Members Vote</h4>
-            <p>If informal mediation cannot achieve compromise, all 5 members cast an equal vote, and the majority decision becomes binding.</p>
+            <h4>Level 3: Team Vote</h4>
+            <p>If informal mediation cannot achieve compromise, team members cast an equal vote, and the majority decision becomes binding.</p>
           </div>
 
           <div class="level-step" style="border-color: rgba(239, 68, 68, 0.4);">
@@ -1392,7 +1415,7 @@
       <div class="footer-content">
         <div>
           <h4>[visionaries] AI Automation Agency</h4>
-          <p>College Project: System Implementation &amp; Enterprise Governance</p>
+          <p>College Project: System Implementation & Enterprise Governance</p>
           <p>Academic Institution: <strong style="color: var(--accent-cyan);">MITAOE</strong></p>
         </div>
 
@@ -1406,7 +1429,7 @@
       </div>
 
       <div style="text-align: center; font-size: 0.8rem; color: var(--text-dim);">
-        <p>&copy; 2026 [visionaries] &bull; Submitted in partial fulfillment of requirements at MITAOE. All rights reserved.</p>
+        <p>© 2026 [visionaries] • Submitted in partial fulfillment of requirements at MITAOE. All rights reserved.</p>
       </div>
     </div>
   </footer>
